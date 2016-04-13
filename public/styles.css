@@ -1,0 +1,73 @@
+body {
+    background-image: radial-gradient(ellipse at center, rgba(250,250,255,1) 0%, rgba(240,255,255,1) 47%, rgba(230,230,255,1) 100%);
+}
+
+html {
+    height: 100%; /* So the gradient does not look askew */
+}
+
+.container {
+    margin-top: 6px;
+}
+
+.navbar {
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+    padding: 6px 4px;
+    position: relative;
+}
+
+.navbar-right {
+    text-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+}
+
+.navbar span {
+    position: absolute;
+    top:50%;
+    transform: translate(0, -50%);
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.navbar ul li {
+    display: inline;
+    margin-left: 20px;
+}
+
+.brand {
+    display: table-cell;
+    position: relative;
+    top: 50%;
+}
+
+#header-title {
+    color: rgba(0, 0, 250, 1);
+    font-family: "Arimo", Helvetica, Arial, sans-serif; 
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: 0.4em;
+    margin-left: 10px;
+    text-shadow: 2px 2px 2px rgba(0,0,0,.2);
+}
+
+#sign-in {
+    background-color: dodgerblue;
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px rgba(0,0,0,.2);
+    color: white;
+    text-shadow: 2px 2px 2px rgba(0,0,0,.2);
+}
+
+#sign-in:hover {
+    background-color: rgb(30, 20, 144);
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px rgba(0,0,0,.2);
+    color: white;
+    text-shadow: 2px 2px 2px rgba(0,0,0,.2);
+}
+
