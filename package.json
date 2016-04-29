@@ -17,11 +17,12 @@
   },
   "homepage": "https://github.com/bapinney/fcc-bp-vote",
   "dependencies": {
-    "connect": "^3.4.1",
-    "cookie-session": "^2.0.0-alpha.1",
+    "bcrypt-nodejs": "0.0.3",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "mongoose": "^4.4.12",
+    "mongoose-findorcreate": "^0.1.2",
+    "morgan": "^1.7.0",
     "passport": "^0.3.2",
     "passport-twitter": "^1.0.4",
     "uuid": "^2.0.2"
