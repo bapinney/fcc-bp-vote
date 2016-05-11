@@ -1,12 +1,18 @@
 body {
-    background-image: radial-gradient(ellipse at center, rgba(250,250,255,1) 0%, rgba(240,255,255,1) 47%, rgba(230,230,255,1) 100%);
+    background-image: radial-gradient(ellipse at center, rgba(250,250,255,1) 0%, rgba(240,255,255,1) 47%, rgba(210,210,245,1) 100%);
 }
 
 html {
     height: 100%; /* So the gradient does not look askew */
 }
 
-.container {
+.container-body {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 4px rgba(225, 225, 245, 1), inset 0 0 5px rgba(0, 0, 0, 0.5); 
+}
+
+.container-head {
     margin-top: 6px;
 }
 
@@ -14,7 +20,6 @@ html {
     background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     border-radius: 5px;
     box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
-    padding: 6px 4px;
     position: relative;
 }
 
@@ -29,15 +34,27 @@ html {
 }
 
 .navbar ul {
+    height: 100%;
     list-style-type: none;
     margin-right: 10px;
-    font-size: 20px;
 }
 
 .navbar ul li {
     display: inline;
+    height: 100%;
+    font-size: 20px;
     margin-left: 20px;
 }
+
+.navbar ul li a {
+    height: 100%;
+}
+
+.navbar-right .active {
+    background-color:hsla(70,50%,96%,1);
+    color: #555 !important; /* Override Bootstrap */
+}
+
 
 .brand {
     display: table-cell;
@@ -46,20 +63,20 @@ html {
 }
 
 #header-title {
-    color: rgba(0, 0, 250, 1);
-    font-family: "Arimo", Helvetica, Arial, sans-serif; 
-    font-size: 30px;
-    font-weight: 900;
-    letter-spacing: 0.4em;
-    margin-left: 10px;
+    color: rgba(10, 100, 200, 1);
+    font-family: "Arimo", Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-align:center;
     text-shadow: 2px 2px 2px rgba(0,0,0,.2);
 }
 
 #sign-in {
-    background-color: dodgerblue;
+    background-color: hsl(210, 100%, 70%);
     border-radius: 10px;
     box-shadow: 2px 2px 2px rgba(0,0,0,.2);
     color: white;
+    font-family: "Arimo", Helvetica, Arial, sans-serif;
     text-shadow: 2px 2px 2px rgba(0,0,0,.2);
 }
 
@@ -71,3 +88,11 @@ html {
     text-shadow: 2px 2px 2px rgba(0,0,0,.2);
 }
 
+#sign-out {
+    background-color: hsl(110, 100%, 30%);
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px rgba(0,0,0,.2);
+    color: white;
+    font-family: "Arimo", Helvetica, Arial, sans-serif;
+    text-shadow: 2px 2px 2px rgba(0,0,0,.2);
+}

@@ -18,13 +18,18 @@
   "homepage": "https://github.com/bapinney/fcc-bp-vote",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
+    "chalk": "^1.1.3",
     "express": "^4.13.4",
+    "express-router": "0.0.1",
     "express-session": "^1.13.0",
+    "mongodb": "^2.1.18",
     "mongoose": "^4.4.12",
     "mongoose-findorcreate": "^0.1.2",
     "morgan": "^1.7.0",
     "passport": "^0.3.2",
     "passport-twitter": "^1.0.4",
+    "pug": "^2.0.0-alpha6",
+    "redis": "^2.6.0-2",
     "uuid": "^2.0.2"
   }
 }
