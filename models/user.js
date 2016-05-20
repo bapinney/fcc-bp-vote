@@ -11,7 +11,8 @@ var userSchema = new Schema({
     id          : Number,
     token       : String,
     username    : String
-    }
+    },
+    {collection: 'fccvote-users'}
 );
 
 /*  We are allowed to write methods to Schemas

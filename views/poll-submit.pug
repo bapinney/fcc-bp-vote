@@ -4,9 +4,4 @@ html
     include ./head.pug
     include ./header.pug
     main(class="container container-body")
-        h1(id="header-title") My Polls
-        hr(class="title-hr")
-        ul(class="poll-list")
-            each poll in polls
-                a(href='/poll/' + poll._id)
-                    li= poll.question
+        h1(id="header-title") Submit Poll

@@ -4,9 +4,6 @@ html
     include ./head.pug
     include ./header.pug
     main(class="container container-body")
-        h1(id="header-title") My Polls
+        h1(id="header-title") Please sign in
         hr(class="title-hr")
-        ul(class="poll-list")
-            each poll in polls
-                a(href='/poll/' + poll._id)
-                    li= poll.question
+        div(class="notice") You must be logged in to view, vote, or create polls.  Please sign in using the link above.

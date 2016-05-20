@@ -1,0 +1,18 @@
+//- Reminder to match the indentation of the previous element in header.pug, so we do not close off tags we need to add on to
+doctype html
+html
+    include ./head.pug
+    include ./header.pug
+    script(type="text/javascript")
+        include ../public/newpoll.js
+    main(class="container container-body")
+        h1(id="header-title") New Poll
+        form(action="/submit-poll" autocomplete="off" id="new-poll-form" method="post")
+            div
+                label(for="poll-question" id="poll-question-label") Poll question
+                input(type="text" id="poll-question-input" name="poll-question" value="")
+            div
+                label(for="poll-option-1" id="poll-label-1") Option 1
+                input(type="text" id="poll-option-1" name="poll-option-1" value="")
+            div(id="create-poll-div")
+                input(type="submit" id="poll-create" disabled value="Create Poll")

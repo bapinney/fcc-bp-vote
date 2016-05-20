@@ -16,6 +16,15 @@ html {
     margin-top: 6px;
 }
 
+.custom-label {
+    display:block;
+    font-size: 10px;
+    font-style: italic;
+    font-weight: normal;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+
 .navbar {
     background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     border-radius: 5px;
@@ -55,26 +64,183 @@ html {
     color: #555 !important; /* Override Bootstrap */
 }
 
-
 .brand {
     display: table-cell;
     position: relative;
     top: 50%;
 }
 
+@-webkit-keyframes voteglow {
+    0% {
+        box-shadow: 0px 0px 00px 1px green;
+    }
+    50% {
+        box-shadow: 0px 0px 20px 1px green;
+    }
+    100% {
+        box-shadow: 0px 0px 0px 1px green;
+    }
+}
+
+#cast-vote-button:disabled {
+    background-image: radial-gradient(ellipse at center, hsl(0, 60%, 90%) 0%, hsl(0, 60%, 95%) 100%);
+    font-style: italic;
+    color: hsl(0,30%,70%) ;
+}
+
+#cast-vote-button:enabled {
+    -webkit-animation: voteglow 2s infinite;
+    background-image: radial-gradient(ellipse at center, hsl(110, 100%, 30%) 0%, hsl(110, 100%, 35%) 100%);
+    color:white;
+}
+
+#cast-vote-button {
+    display:block;
+    margin-top: 5px;
+}
+
+#custom-option-pane {
+    padding-left: 5px;
+}
+
 #header-title {
     color: rgba(10, 100, 200, 1);
     font-family: "Arimo", Helvetica, Arial, sans-serif;
     font-weight: 400;
-    letter-spacing: 0.3em;
-    text-align:center;
+    letter-spacing: 0.2em;
+    text-align: center;
     text-shadow: 2px 2px 2px rgba(0,0,0,.2);
 }
+
+input[type="text"] {
+    background-color: hsl(49, 100%, 98%);
+    border-radius:5px;
+}
+
+input[type="submit"] {
+    border-radius:5px;
+}
+
+#new-poll-form div {
+    margin-bottom: 4px;
+}
+
+#new-poll-form input[type="text"] {
+    border-radius: 3px;
+    font-size: 18px;
+    min-width: 400px;
+}
+
+#new-poll-form label {
+    font-size: 20px;
+    margin-right: 15px;
+    width: 150px;
+}
+
+.notice {
+    text-align: center;
+    font-family: "Arimo", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 80px;
+}
+
+.unused {
+    color: rgba(0,0,0,0.3);
+}
+
+#create-poll-div {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+#poll-create:enabled { /* button */
+    background-color: #207F20;
+    border: 2px solid rgba(225,245,225,.8);
+    border-radius: 5px;
+    box-shadow: 0px 0px 15px green;
+    color: white;
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: .5em;
+    margin: 10px auto 15px auto;
+    transition: all 300ms;
+}
+
+#poll-create:enabled:focus, #poll-create:enabled:hover {
+    box-shadow: 0px 0px 30px yellow;
+}
+
+#poll-create:disabled {
+    background-color: #7F7F7F;
+    border: 2px solid rgba(225,225,225,.8);
+    border-radius: 5px;
+    color: rgb(222,222,222);
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: .5em;
+    margin: 10px auto 15px auto;
+}
+
+.poll-author {
+    font-weight: 400;
+    font-size: 18px;
+    letter-spacing: .2em;
+    margin-bottom: 30px;
+    margin-top: -10px;
+    text-align: left;
+    text-shadow: 2px 2px 2px #BBB;    
+}
+
+.poll-list {
+    list-style-type: none;
+    padding-left: 10px;
+}
+.poll-list li {
+    background-color: hsl(210, 100%, 90%);
+    border-radius: 5px;
+    box-shadow: inset 0px 0px 5px black;
+    font-size: 16px;
+    margin-bottom: 5px;
+    padding: 2px 6px 2px 6px;
+    transition: all 300ms;
+}
+.poll-list li:hover {
+    background-color: hsl(70, 100%, 90%);
+}
+.poll-list a:hover {
+    text-decoration: none;
+    color: black;
+}
+
+.poll-options-pane {
+    min-height: 400px;
+}
+
+.poll-options-pane select {
+    font-size: 24px;
+    min-width: 200px;
+}
+
+.poll-results-pane {
+    border-left: 1px dotted black;
+    min-height: 400px; 
+}
+
+.title-hr {
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    height: 1px;
+    margin-top: -8px;
+    margin-bottom: 20px;
+}
+
 
 #sign-in {
     background-color: hsl(210, 100%, 70%);
     border-radius: 10px;
-    box-shadow: 2px 2px 2px rgba(0,0,0,.2);
+    box-shadow: 2px 2px 2px 4px rgba(0,0,0,.2);
     color: white;
     font-family: "Arimo", Helvetica, Arial, sans-serif;
     text-shadow: 2px 2px 2px rgba(0,0,0,.2);

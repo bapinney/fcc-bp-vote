@@ -10,7 +10,7 @@ body
                             span(class="icon-bar")
                             span(class="icon-bar")
                             span(class="icon-bar")
-                        a(class="navbar-brand" href="#") Voting App
+                        a(class="navbar-brand" href="/") Voting App
                     //- /navbar-header
                     div(class="collapse navbar-collapse" target="navbar-collapse")
                         ul(class="nav navbar-nav navbar-right")
@@ -18,9 +18,9 @@ body
                                 a(href="/") Home
                             if typeof username != 'undefined'
                                 li
-                                    a(class="active" href="/profile") My Polls
+                                    a(href="/mypolls" id="button-mypolls") My Polls
                                 li
-                                    a(href="/new") New Poll
+                                    a(href="/new" id="button-new") New Poll
                             li
                                 if typeof username != 'undefined'
                                     a(href="/logout" title="Log out")

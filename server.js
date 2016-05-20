@@ -9,14 +9,16 @@ var morgan = require('morgan'); //Logging -- Remove when done
 var uuid = require('uuid');
 var mongodb = require('mongodb'); //REMOVE?
 var MongoClient = require('mongodb').MongoClient;
-var db; //Global, so we can access from modules
 var findOrCreate = require('mongoose-findorcreate'); //Adds a findOrCreate for Mongoose models -- https://www.npmjs.com/package/mongoose-findorcreate
 var mongoose = require('mongoose');
 var pug = require('pug'); //Pug is the new Jade
 global.rootDir = __dirname;
 var passport = require('passport');
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 var TwitterStrategy = require('passport-twitter').Strategy;
-var User = require('./app/models/user.js'); //Mongoose 'User' model
+var User = require('./models/user.js'); //Mongoose 'User' model
 
 app.use(morgan('dev')); //Log requests to console
 
@@ -82,11 +84,6 @@ var doInit = function () { //Initialization that begins once the app verifies we
                                 username    : profile.username
                                 }
                             );
-                            /*
-                            newUser.twitter.id = profile.id;
-                            newUser.twitter.token = token;
-                            newUser.twitter.username = profile.username;
-                            */
                             //Since newUser is a Mongoose schema from User, it has its own save method
                             console.log("About to save user: ");
                             newUser.save(function(err, newUser, numAffected) {
@@ -104,10 +101,9 @@ var doInit = function () { //Initialization that begins once the app verifies we
 
         }));
 
-    app.use(express.static('public'));
-
     //ROUTES
-    var routes = require('./app/routes.js');
+    app.use(express.static(__dirname + '/public'));
+    var routes = require('./controllers/routes.js');
     app.use('/', routes);
 
     app.listen(port, function () {
@@ -128,14 +124,16 @@ if (process.env.TWITTER_CONSUMER_KEY) { //We use twitter for auth, so if this is
     else {
         console.log("Waiting to connect to MongoDB...");
         mongoose.connect(process.env.MONGO_VOTE_URI);
-        db = mongoose.connection;
+        global.db = mongoose.connection;
+        
         //http://codetunnel.io/javascript-partial-application-with-bind/
-        db.on('error', function(error) {
+        global.db.on('error', function(error) {
             console.error("Mongoose connection error: ");
             console.dir(error);
             console.log("Exiting...");
         });
-        db.once('open', function () {
+        
+        global.db.once('open', function () {
             console.log("Connected to MongoDB.  Running init...");
             doInit(); //Initialize
         });

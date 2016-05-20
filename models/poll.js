@@ -5,7 +5,8 @@ var Schema = mongoose.Schema;
     inside of the poll doc */
 var pollOwnerSchema = new Schema({
     userProvider    : String,
-    userId          : Number
+    userId          : Number,
+    userName        : String
     }
 );
 
@@ -22,24 +23,20 @@ var votesValidator = function(arr) {
         if (!arr[i].hasOwnProperty('userProvider')) { return false; }
         if (!arr[i].hasOwnProperty('userName')) { return false; }
         if (!arr[i].hasOwnProperty('userId')) { return false; }
+        if (!arr[i].hasOwnProperty('nOptionVoted')) { return false; }
+        if (!arr[i].hasOwnProperty('userIP')) { return false; }
     }
     return true;
 }
 
 var pollSchema = new Schema({
-    dateCreated : function() { return Date.now(); },
+    dateCreated : { type: Date, default: Date.now },
     pollOwner   : [pollOwnerSchema],
     question    : String,
     options     : Array,
-    votes       : Array  //Create a validator for this
-});
+    votes       : {type: Array, validate: [votesValidator, 'The votes document did not pass validation']}
+    }, 
+    {collection: 'fccvote-polls'} //The collection will be created if it does not exist
+);
 
-/*  We are allowed to write methods to Schemas
-    http://mongoosejs.com/docs/guide.html#methods */
-
-//Generates a hash - https://www.npmjs.com/package/bcrypt-nodejs
-pollSchema.methods.createPoll = function() {
-    return false;
-};
-
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Poll', pollSchema);
