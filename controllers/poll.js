@@ -50,11 +50,18 @@ exports.castVote = function(req, res) {
                 res.json({error: "No vote selection provided"});
                 return false;
             }
-            if (typeof parseInt(req.body["vote-selection"]) == "number") {
+            console.log(typeof parseInt(req.body["vote-selection"]));
+            console.log(54);
+            if (!isNaN(parseInt(req.body["vote-selection"]))) {
                 console.log("Selection was a number");
                 //We have a number, but let's make sure that Nth option exists
                 if (poll.options[parseInt(req.body["vote-selection"])] !== undefined) {
                     console.log("The option selected exists");
+                    //Make sure the user has not already voted...
+                    
+                    console.dir(poll._doc.votes);
+                    
+                    /*
                     poll.votes.push({
                         userProvider:   req.user.provider,
                         userName:       req.user.username,
@@ -71,6 +78,12 @@ exports.castVote = function(req, res) {
                             res.json({result: "success"});
                         }
                     })
+                    */
+                }
+            }
+            else if (req.body["vote-selection"] == "addNew") {
+                if (req.body["custom-vote"] == undefined || res.body["custom-vote"].length == 0) {
+                    res.json({error: "Custom option undefined or blank"})
                 }
             }
             //res.write(poll.toString());

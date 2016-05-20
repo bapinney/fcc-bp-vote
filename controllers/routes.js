@@ -19,23 +19,33 @@ var loggedIn = function(req, res, next) {
 
 //router.get('/auth/twitter', passport.authenticate('twitter'));
 
-router.get('/auth/twitter', function(req, res, next) {
-  passport.authenticate('twitter', function(err, user, info) {
-    if (err) { return next(err); }
-    if (!user) { return res.redirect('/login'); }
-    req.logIn(user, function(err) {
-        if (err) { return next(err); }
-        console.log("About to see if req had referrer URL")
-        console.dir(req);
-        return res.redirect('/mypolls');
-    });
-  })(req, res, next);
+router.get('/auth/twitter', function (req, res, next) {
+    console.log("auth twitter called");
+    console.log(req.headers.referer);
+    req.session.cburl = req.headers.referer;
+    passport.authenticate('twitter', function (err, user, info) {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return res.redirect('/login');
+        }
+    })(req, res, next);
 });
 
-router.get('/auth/twitter/callback', passport.authenticate('twitter', { 
-        successRedirect: '/mypolls',
-        failureRedirect: '/loginfail' }) 
-);
+router.get('/auth/twitter/callback', passport.authenticate('twitter', {
+	successRedirect : '/authreturn',
+	failureRedirect : '/'
+}));
+
+router.get('/authreturn', function(req, res) {
+    if (req.session.cburl.length > 0) {
+        res.redirect(req.session.cburl);
+    }
+    else {
+        res.redirect('/mypolls');
+    }
+});
 
 router.get('/login', function(req, res) {
     var html = pug.renderFile('./views/login-notice.pug');
