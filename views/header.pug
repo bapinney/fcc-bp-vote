@@ -21,13 +21,14 @@ body
                                     a(href="/mypolls" id="button-mypolls") My Polls
                                 li
                                     a(href="/new" id="button-new") New Poll
-                            li
-                                if typeof username != 'undefined'
-                                    a(href="/logout" title="Log out")
+                            if typeof username != 'undefined'
+                                li(id="sign-out")
+                                    a(href="/logout" title="Sign out")
                                         i(class="fa fa-sign-out" display="inline !important" aria-hidden="true")
                                         |&nbsp;#{username}
-                                else
-                                    a(href="/auth/twitter")
+                            else
+                                li(id="sign-in")
+                                    a(href="/auth/twitter" title="Sign in")
                                         i(aria-hidden="true" class="fa fa-twitter-square" style="display: inline !important;")
                                         |&nbsp;Sign In
                     //- /navbar-collapse

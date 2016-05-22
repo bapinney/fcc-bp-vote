@@ -6,7 +6,7 @@ var pug = require('pug');
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json()
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
-var Poll = require('./poll.js');
+var poll = require('./poll.js');
 
 var loggedIn = function(req, res, next) {
     if (req.user) {
@@ -57,7 +57,7 @@ router.get('/getChartData/*', function (req, res) {
     else {
         //ChartID is valid.  Store it in res.locals and let the middleware take care of the rest
         res.locals.chartID = chartID;
-        Poll.getResults(req, res);
+        poll.getResults(req, res);
     }
     console.dir(req.params);
 });
