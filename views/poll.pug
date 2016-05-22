@@ -10,11 +10,11 @@ html
         h2(class="poll-author vert-rule-r") Created by #{poll.pollOwner[0].userName}
         div(class="row")
             div(class="col-md-4 poll-options-pane")
-                form(action="/submit-vote" method="post")
-                    p Select an option:
+                form(action="/submit-vote" id="vote-form" method="post")
+                    p Select an #[u o]ption:
                     //- This input makes sure we POST the poll id a vote is being submitted for
                     input(type="hidden" name="poll-id")&attributes({'value': poll._id.toString()})
-                    select(id="vote-dropdown" name="vote-selection")
+                    select(accesskey="o" id="vote-dropdown" name="vote-selection")
                         option(value="unchosen") -------------
                         each val, index in poll.options
                             option(value=index) #{val}
@@ -23,7 +23,7 @@ html
                     div(id="custom-option-pane" style="display:none")
                         label(for="custom-option-input" class="custom-label") add your own option
                         input(id="custom-option-input" name="custom-vote" type="text")
-                    input(type="submit" id="cast-vote-button" disabled value="Cast Vote")
+                    button(accesskey="v" form="vote-form" type="submit" id="cast-vote-button" disabled) Cast #[u V]ote
             div(class="col-md-8 poll-results-pane")
                 //- The JS will use this ID to append an SVG
                 div(id="chart-container")

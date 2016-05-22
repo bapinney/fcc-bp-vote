@@ -6,7 +6,7 @@ var pug = require('pug');
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json()
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
-var poll = require('./poll.js');
+var Poll = require('./poll.js');
 
 var loggedIn = function(req, res, next) {
     if (req.user) {
@@ -47,6 +47,21 @@ router.get('/authreturn', function(req, res) {
     }
 });
 
+router.get('/getChartData/*', function (req, res) {
+    var chartID = req.params[0];
+    if (chartID.length !== 24) {
+        res.status(500).json({error: "Expected ChartID to be 24 characters"})
+        res.end();
+        return;
+    }
+    else {
+        //ChartID is valid.  Store it in res.locals and let the middleware take care of the rest
+        res.locals.chartID = chartID;
+        Poll.getResults(req, res);
+    }
+    console.dir(req.params);
+});
+
 router.get('/login', function(req, res) {
     var html = pug.renderFile('./views/login-notice.pug');
     res.send(html);
@@ -61,7 +76,6 @@ router.get('/logout', function(req, res) {
 
 //Note the loggedIn middleware function to ensure the user is logged in before displaying the page
 router.get('/mypolls', loggedIn, function(req, res) {
-    var Poll = require('../models/poll.js');
     //Remember this is asynchronous, so put the stuff we need to do, afterwards, in the callback
     Poll.find({
         'pollOwner.userProvider': req.user.provider,
