@@ -46,6 +46,19 @@ $( document ).ready(function() {
        btnEnableChk();
     });
     
+    var drawChart = function(data) {
+        console.log("drawChart called");
+        //var chartWidth = document.getElementById("chart-container").clientWidth;
+        //var chartHeight = document.getElementById("chart-container").clientHeight;
+        
+        var svg = d3.select("#poll-results-pane").append("svg")
+            .attr("id", "chart-container");
+        
+        // https://github.com/d3/d3/wiki/Ordinal-Scales#category20
+        var color = d3.scale.category20();
+        
+    }
+    
     if(window.location.pathname.split("/")[1] == "poll" && window.location.pathname.split("/")[2].length == 24) {
         var currentPath = window.location.pathname.split("/");
         console.log("We are at a poll page!!");
@@ -56,8 +69,10 @@ $( document ).ready(function() {
         var queryURL = window.location.origin + "/getChartData/" + chartID;
         $.ajax(queryURL, {
             success: function(data, status) {
+                console.log("AJAX Success:  Echoing data and status...");
                 console.dir(data);
                 console.dir(status);
+                drawChart(data);
             }
         })
     }

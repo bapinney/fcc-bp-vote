@@ -24,7 +24,6 @@ html
                         label(for="custom-option-input" class="custom-label") add your own option
                         input(id="custom-option-input" name="custom-vote" type="text")
                     button(accesskey="v" form="vote-form" type="submit" id="cast-vote-button" disabled) Cast #[u V]ote
-            div(class="col-md-8 poll-results-pane")
-                //- The JS will use this ID to append an SVG
-                div(id="chart-container")
+            //- The JS will use this ID to append an SVG
+            div(class="col-md-8 poll-results-pane" id="poll-results-pane")
                 

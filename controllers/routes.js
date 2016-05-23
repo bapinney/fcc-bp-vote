@@ -57,7 +57,7 @@ router.get('/getChartData/*', function (req, res) {
     else {
         //ChartID is valid.  Store it in res.locals and let the middleware take care of the rest
         res.locals.chartID = chartID;
-        poll.getResults(req, res);
+        poll.getChartData(req, res);
     }
     console.dir(req.params);
 });
@@ -146,26 +146,30 @@ router.get('/', function(req, res){
     var polls = [];
     
     //Remember, this is asynchronous!
-    Poll.find({}, function(err, docs) {
-        for (var i=0; i < docs.length; i++) {
-            polls.push(docs[i]._doc);
-        }
-        if (req.hasOwnProperty("user") && req.user.hasOwnProperty("username")) {
-            var html = pug.renderFile('./views/home.pug', {
-                title: "Home", 
-                polls: polls,
-                username: req.user.username
-            });
-        }
-        else {
-            var html = pug.renderFile('./views/home.pug', {
-                title: "Home", 
-                polls: polls,
-            });
-        }
-        res.send(html);
-    });
-})
+    Poll.find({})
+        .limit(50)
+        .sort('-dateCreated')
+        .exec(function(err, docs) {
+            for (var i=0; i < docs.length; i++) {
+                polls.push(docs[i]._doc);
+            }
+            if (req.hasOwnProperty("user") && req.user.hasOwnProperty("username")) {
+                var html = pug.renderFile('./views/home.pug', {
+                    title: "Home", 
+                    polls: polls,
+                    username: req.user.username
+                });
+            }
+            else {
+                var html = pug.renderFile('./views/home.pug', {
+                    title: "Home", 
+                    polls: polls,
+                });
+            }
+            res.send(html);
+        }); // </exec>
+    // </Poll>
+});
 
 /* Use this to build a skeleton, then remove */
 /*

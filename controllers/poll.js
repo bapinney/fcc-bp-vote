@@ -142,17 +142,47 @@ exports.castVote = function(req, res) {
                     res.json({error: "Custom option undefined or blank"});
                     return false;
                 }
-                //Add the option using $addToSet (which will not add it again if it is already there)
-                poll.options.addToSet(req.body["custom-vote"]);
-                poll.save(function(err) {
+                
+                //Make sure the user has not already voted...
+                Poll.findOne({'_id': req.body['poll-id']}, {votes: {$elemMatch: {userId: req.user.id}}}, function(err, vote) {
                     if (err) {
-                        console.log(err);
-                        res.status(500).send({ result: "error" });
+                        console.error(err);
                     }
-                    else {
-                        res.json({result: "success"});
-                    }
+                    if(vote._doc.votes.length > 0) {
+                        res.json({error: "Cannot add custom option after voting"});
+                        return false;
+                    };
+                    
+                    //Add the option using $addToSet (which will not add it again if it is already there)
+                    poll.options.addToSet(req.body["custom-vote"]);
+                    poll.save(function(err) {
+                        if (err) {
+                            console.log(err);
+                            res.status(500).send({ result: "error" });
+                        }
+                        else {
+                            //Get the position of the option the user added so it can be voted on
+                            var nOption = poll.options.indexOf(req.body["custom-vote"]);
+                            poll.votes.push({
+                                userProvider:   req.user.provider,
+                                userName:       req.user.username,
+                                userId:         req.user.id,
+                                userIP:         req.connection.remoteAddress,
+                                nOptionVoted:   parseInt(nOption)
+                            });
+                            poll.save(function(err) {
+                                if (err) {
+                                    console.log(err);
+                                    res.status(500).send({ result: "error" });
+                                }
+                                else {
+                                    res.json({result: "Custom option added and voted."});
+                                }
+                            });
+                        }
+                    });
                 });
+                                
             }
             //res.end();
         }
@@ -162,7 +192,7 @@ exports.castVote = function(req, res) {
     });
 }
 
-exports.getResults = function(req, res) {
+exports.getChartData = function(req, res) {
     //res.write("Requested for " + res.locals.chartID);
     console.log("getResults called");
     //Get the text of options for this poll, so we can match up the aggregates in the subsequent query
