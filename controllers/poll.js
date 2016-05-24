@@ -205,40 +205,54 @@ exports.getChartData = function(req, res) {
                 return false;
             }
             var options = doc.options;
-            console.log("Here is doc")
-            console.dir(doc);
+            console.log("Here is options array")
+            console.dir(options);
+            
+            //Now get the votes for those options
             db.collection('fccvote-polls').aggregate([
                 { $unwind: "$votes"},
                 { $match: {_id: ObjectID(res.locals.chartID)}},
-                { $group: {_id: "$votes.nOptionVoted", nVotes:{$sum: 1}}}
+                { $group: {_id: "$votes.nOptionVoted", nVotes:{$sum: 1}}},
+                { $sort:  {_id: 1}}
             ]).toArray(function(err, docs) { //NOT to be confused with 'doc', above
                 console.log("About to dir docs, whose length is " + docs.length);
                 console.dir(docs);
                 //Response should be an **array** of objects
-                /*
-                var resArr = {};
-                for (var i=0; i<docs.length; i++) {
-                    console.log("i is: " + docs[i]["_id"]);
-                    resArr[options[i]] = docs[i]["nVotes"];
-                }
-                */
-                
                 var resArr = [];
-                for (var i=0; i < doc.options.length; i++) {
-                    console.log("At i:" + i);
-                    var nVotes = 0;
-                    for (var i2 = 0; i2 < docs.length; i2++) {
-                        console.log("At i2:" + i2);
-                        if (docs[i2]["_id"] = i) {
-                            console.log("nVotes = " + docs[i2]["nVotes"]);
-                            nVotes = docs[i2]["nVotes"];
-                        }
+                
+                //Record numbers for recorded votes
+                var nVotes = [];
+                for (var i=0; i < docs.length; i++) {
+                    console.log("At i=" + i);
+                    if (docs[i]["nVotes"] !== null) {
+                        nVotes[docs[i]["_id"]] = docs[i]["nVotes"];
                     }
-                    resArr[i] = {
-                        "label": doc.options[i],
-                        "votes": nVotes
-                    };
+                    else {
+                        console.log("Else callsed at i:" + i);
+                        nVotes[docs[i]["_id"]] = 0; //If we have no record, that means the option has 0 votes
+                    }
                 }
+                
+                //Record 0s for any votes with no records
+                for (var i=0; i < options.length; i++) {
+                    if (nVotes[i] == null) {
+                        nVotes[i] = 0;
+                    }
+                }
+                
+                
+                console.log("Here is the nVotes array");
+                console.dir(nVotes);
+                
+                
+                for (var i=0; i < options.length; i++) {
+                    var obj2push = {};
+                    obj2push["nOption"] = i;
+                    obj2push["optionLabel"] = options[i];
+                    obj2push["nVotes"] = nVotes[i];
+                    resArr.push(obj2push);
+                }
+
                 //Sends the data to the client JS for charting
                 res.send(resArr);
             });
