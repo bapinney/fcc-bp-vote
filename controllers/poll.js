@@ -205,20 +205,42 @@ exports.getChartData = function(req, res) {
                 return false;
             }
             var options = doc.options;
-            console.dir(options);
+            console.log("Here is doc")
+            console.dir(doc);
             db.collection('fccvote-polls').aggregate([
                 { $unwind: "$votes"},
                 { $match: {_id: ObjectID(res.locals.chartID)}},
                 { $group: {_id: "$votes.nOptionVoted", nVotes:{$sum: 1}}}
-            ]).toArray(function(err, docs) {
+            ]).toArray(function(err, docs) { //NOT to be confused with 'doc', above
+                console.log("About to dir docs, whose length is " + docs.length);
                 console.dir(docs);
+                //Response should be an **array** of objects
+                /*
                 var resArr = {};
                 for (var i=0; i<docs.length; i++) {
                     console.log("i is: " + docs[i]["_id"]);
                     resArr[options[i]] = docs[i]["nVotes"];
                 }
-                res.send(resArr);
+                */
                 
+                var resArr = [];
+                for (var i=0; i < doc.options.length; i++) {
+                    console.log("At i:" + i);
+                    var nVotes = 0;
+                    for (var i2 = 0; i2 < docs.length; i2++) {
+                        console.log("At i2:" + i2);
+                        if (docs[i2]["_id"] = i) {
+                            console.log("nVotes = " + docs[i2]["nVotes"]);
+                            nVotes = docs[i2]["nVotes"];
+                        }
+                    }
+                    resArr[i] = {
+                        "label": doc.options[i],
+                        "votes": nVotes
+                    };
+                }
+                //Sends the data to the client JS for charting
+                res.send(resArr);
             });
         }
     );

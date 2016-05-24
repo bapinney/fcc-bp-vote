@@ -6,6 +6,14 @@ html {
     height: 100%; /* So the gradient does not look askew */
 }
 
+.arc text {
+    font: 10px sans-serif;
+}
+
+.arc path {
+    stroke: #000000;
+}
+
 #chart-container {
     border: 1px dotted black;
     display: block;
