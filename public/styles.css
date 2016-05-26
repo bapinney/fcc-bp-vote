@@ -14,10 +14,15 @@ html {
     stroke: #000000;
 }
 
+#chart {
+    box-shadow: 0 10px 6px -6px #777, inset 0px 0px 1px 1px rgba(0,0,0,0.3);
+}
+
 #chart-container {
-    border: 1px dotted black;
+    border: 1px outset rgba(0,0,0,0.4);
+    border-collapse: collapse;
     display: block;
-    height: 550px;
+    height: 350px;
     margin: 0px auto 15px auto;
     width: 550px;
 }
@@ -251,6 +256,13 @@ input[type="submit"], button[type="submit"] {
     min-height: 400px; 
 }
 
+.slice {
+    pointer-events: all;
+    stroke: black;
+    stroke-width: 3px;
+    stroke-opacity: 0.9;
+}
+
 .title-hr {
     background-image: linear-gradient(to right, hsla(210, 100%, 90%, 0), hsla(210, 100%, 90%, 0.75), hsla(210, 100%, 90%, 0));
     height: 5px;
@@ -258,6 +270,19 @@ input[type="submit"], button[type="submit"] {
     margin-bottom: 20px;
 }
 
+.tooltip {
+    background-color: hsl(210, 100%, 70%);
+    border-radius: 5px;
+    border: 2px solid white;
+    color: white;
+    font-family: "Arimo", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    height: auto;
+    padding: 3px;
+    pointer-events: none;
+    position: absolute;
+    width: auto;
+}
 
 #sign-in {
     background-color: hsl(210, 100%, 70%);
@@ -307,8 +332,7 @@ input[type="submit"], button[type="submit"] {
 #sign-out:hover {
     background-color: black;;
     border-radius: 10px;
-    box-shadow: 
-        inset 0px 0px 2px 2px rgba(255,255,255,1),
+    box-shadow: inset 0px 0px 2px 2px rgba(255,255,255,1),
     color: white;
     font-family: "Arimo", Helvetica, Arial, sans-serif;
     text-shadow: 2px 2px 2px rgba(0,0,0,.2);

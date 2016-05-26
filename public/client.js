@@ -54,38 +54,80 @@ $( document ).ready(function() {
         console.log("drawChart called");
         console.dir(data);
         
-        var svg = d3.select("#poll-results-pane").append("svg")
-            .attr("id", "chart-container");
+        var svg = d3.select("#chart-container").append("svg")
+            .attr("id", "chart")
         
         //We use these values, set by CSS, to center the chart in its container
         var containerWidth = document.getElementById("chart-container").clientWidth;
         var containerHeight = document.getElementById("chart-container").clientHeight;
-        //console.log(containerWidth + ", " + containerHeight);
+        console.log("Container dimensions: " + containerWidth + ", " + containerHeight);
         
         //We want the radius to be the shorter of the two dimensions, so that the pie chart does not get cut off.
-        var radius = Math.min(containerHeight, containerWidth) / 2;
+        var radius = Math.min(containerHeight, containerWidth) / 2.25;
+        console.log("Radius is " + radius);
         
+        svg.attr("width", containerWidth).attr("height", containerHeight)
+        
+        var mainGroup = svg.append("g")
+            .attr("transform", "translate(" + containerWidth / 2 + "," + containerHeight / 2 + ")");
+        
+        //Create our main group (in the center)
+        console.log("append a 'g' with: " + "transform", "translate(" + containerWidth / 2 + "," + containerHeight / 2 + ")");
         
         // https://github.com/d3/d3/wiki/Ordinal-Scales#category20
         var color       = d3.scale.category20();
-
-        var arc         = d3.svg.arc().outerRadius(radius - 10).innerRadius(0);
+        window.foo = color;
+        
+        var arc         = d3.svg.arc().outerRadius(radius);
         var labelArc    = d3.svg.arc().outerRadius(radius - 35).innerRadius(radius - 35);
         
-        //Create our pie.  No need to use sort() as the default is descending order, which is what we want.  Also, no need to use value(), as the value is already a Number
-        var pie = d3.layout.pie().value(function(d) { return d.value; });
+        var tip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
+        
+        //Create our pie.  We are using null for sort() because our data is already sorted for us.
+        var pie = d3.layout.pie().value(function(d) { return d.nVotes; }).sort(null);
 
-        svg.attr("width", containerWidth).attr("height", containerHeight)
-        //Create our main group (in the center)
-        .append("g")
-            .attr("transform", "translate(" + containerWidth / 2 + "," + containerHeight / 2 + ")");
+        var path = mainGroup.selectAll('path')
+            .data(pie(data))
+            .enter()
+            .append('path')
+            .attr('d', arc)
+            .attr('class', 'slice')
+            .attr('fill', function(d, i) {
+                return color(d.data.optionLabel);
+            })
+            .on("mouseover", function (d) {
+                console.dir(d);
+                tip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+                tip.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+                tip.text(d.data.nVotes + " votes")
+                    .style("left", (d3.event.pageX - 0) + "px") //Don't change the X's.  It's nice to have the left-edge of the tooltip directly over the pointer
+                    .style("top", (d3.event.pageY - 50) + "px");
+            })
+            .on("mousemove", function(d) {
+                tip
+                    .html(d.data.optionLabel + "<br>" + d.data.nVotes + " votes")
+                    .style("left", (d3.event.pageX - 0) + "px")
+                    .style("top", (d3.event.pageY - 50) + "px");
+            })
+            .on("mouseout", function (d) {
+                tip.transition()
+                    .duration(200)
+                    .style("opacity", 0);
+            })
+            .transition()
+            .ease("bounce")
+            .duration(2000)
+            .attrTween("d", tweenPie);
         
-        //Just a refresher, "Think of the initial selection as declaring the elements you _want_ to exist" — https://bost.ocks.org/mike/bar/
-        var g = d3.selectAll(".arc").data(pie(data)).enter().append("g").attr("class", "arc");
-        
-        g.append("path").attr("d", arc).style("fill", function(d) { return "green"; });
-        
-        
+        function tweenPie(b) {
+            b.innerRadius = 0;
+            var i = d3.interpolate({startAngle: -1, endAngle: 0}, b);
+            return function(t) { return arc(i(t)); };
+        }
         
     }
     
