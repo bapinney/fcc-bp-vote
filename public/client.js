@@ -6,9 +6,18 @@ $( document ).ready(function() {
     var color       = d3.scale.category20();
     window.color = color;
     
+    new Clipboard('.cb-copy');
+    
     if (document.getElementById("button-" + window.location.pathname.substr(1)) !== null) {
         $("#button-" + window.location.pathname.substr(1)).addClass("active");
     }
+    
+    $("#share-btn").click(function(e) {
+        e.preventDefault();
+        $("#share-links-pane").slideToggle();
+        $("#cb-copy").focus();
+        $("#share-link")[0].value = document.location.href;
+    });
     
     if($("#vote-dropdown").length > 0 && $("#vote-dropdown")[0].selectedIndex !== 0) {
         $("#vote-dropdown")[0].selectedIndex = 0;
@@ -157,18 +166,18 @@ $( document ).ready(function() {
     
     if(window.location.pathname.split("/")[1] == "poll" && window.location.pathname.split("/")[2].length == 24) {
         var currentPath = window.location.pathname.split("/");
-        console.log("We are at a poll page!!");
+        //console.log("We are at a poll page!!");
         //Let's do some AJAX to get the chart data
         var chartID = window.location.pathname.split("/")[2];
-        console.log("Querying for chart " + chartID + "...");
-        console.dir(currentPath);
+        //console.log("Querying for chart " + chartID + "...");
+        //console.dir(currentPath);
         var queryURL = window.location.origin + "/getChartData/" + chartID;
         $.ajax(queryURL, {
             success: function(data, status) {
                 console.log("AJAX Success:  Echoing data and status...");
                 console.dir(data);
                 console.dir(status);
-                document.dcopy = data;
+                //document.dcopy = data;
                 drawChart(data);
                 drawLegend(data);
             }

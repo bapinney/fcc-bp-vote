@@ -26,6 +26,16 @@ html
                             label(for="custom-option-input" class="custom-label") add your own option
                             input(id="custom-option-input" name="custom-vote" type="text")
                         button(accesskey="v" form="vote-form" type="submit" id="cast-vote-button" disabled) Cast #[u V]ote
+                if typeof username != 'undefined'
+                    div(id="sharing-pane")
+                        a(href="#" id="share-btn")
+                            i(aria-hidden="true" class="fa fa-share-alt-square" style="display: inline !important;")
+                            | Share
+                        div(id="share-links-pane")
+                            input(type="text" id="share-link")
+                            button(aria-label="Copy link" class="cb-copy" data-clipboard-target="#share-link" id="cb-copy" type="button")
+                                i(aria-hidden="true" class="fa fa-files-o")
+                                |  Copy
             //- The client JS will use this ID to append an SVG with the poll results
             div(class="col-md-8 poll-results-pane" id="poll-results-pane")
                 h2(class="subcontainer-head") Results
