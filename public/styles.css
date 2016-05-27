@@ -1,339 +1,383 @@
-body {
-    background-image: radial-gradient(ellipse at center, rgba(250,250,255,1) 0%, rgba(240,255,255,1) 47%, rgba(210,210,245,1) 100%);
+#cast-vote-button
+{
+	display: block;
+    margin: auto;
+	margin-top: 5px;
 }
-
-html {
-    height: 100%; /* So the gradient does not look askew */
+#cast-vote-button:disabled
+{
+	background-image: radial-gradient(ellipse at center, hsl(0, 60%, 90%) 0%, hsl(0, 60%, 95%) 100%);
+	color: hsl(0,30%,70%);
+	font-style: italic;
 }
-
-.arc text {
-    font: 10px sans-serif;
+#cast-vote-button:enabled
+{
+	background-image: radial-gradient(ellipse at center, hsl(110, 100%, 30%) 0%, hsl(110, 100%, 35%) 100%);
+	color: white;
+	animation: voteglow 2s infinite;
 }
-
-.arc path {
-    stroke: #000000;
+#cast-vote-button:enabled:hover
+{
+	background-image: radial-gradient(ellipse at center, hsl(110, 100%, 60%) 0%, hsl(110, 100%, 65%) 100%);
+	color: white;
+	animation: voteglow 2s infinite;
 }
-
-#chart {
-    box-shadow: 0 10px 6px -6px #777, inset 0px 0px 1px 1px rgba(0,0,0,0.3);
-}
-
-#chart-container {
-    border: 1px outset rgba(0,0,0,0.4);
-    border-collapse: collapse;
-    display: block;
+#chart
+{
     height: 350px;
-    margin: 0px auto 15px auto;
-    width: 550px;
 }
-
-.container-body {
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 0 0 4px rgba(225, 225, 245, 1), inset 0 0 5px rgba(0, 0, 0, 0.5); 
+#chart-container
+{
+	border: 1px outset rgba(0,0,0,0.4);
+	box-shadow: 0 10px 6px -6px #777, inset 0px 0px 1px 1px rgba(0,0,0,0.3);
+	border-collapse: collapse;
+	display: block;
+    height: 350px;
+	margin: 0px auto 15px auto;
+	width: 550px;
 }
-
-.container-head {
-    margin-top: 6px;
+#create-poll-div
+{
+	margin-bottom: 15px;
+	margin-top: 15px;
 }
-
-.custom-label {
-    display:block;
-    font-size: 10px;
-    font-style: italic;
-    font-weight: normal;
-    margin-top: 10px;
-    margin-bottom: 0px;
+#custom-option-pane
+{
+	padding-left: 5px;
 }
-
-.navbar {
-    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    border-radius: 5px;
-    box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
-    position: relative;
+#header-title
+{
+	color: rgba(10, 100, 200, 1);
+	font-family: "Arimo", Helvetica, Arial, sans-serif;
+	font-weight: 400;
+	letter-spacing: 0.2em;
+	text-align: center;
+	text-shadow: 2px 2px 2px rgba(0,0,0,.2);
 }
-
-.navbar-right {
-    text-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+#new-poll-form div
+{
+	margin-bottom: 4px;
 }
-
-.navbar span {
-    position: absolute;
-    top:50%;
-    transform: translate(0, -50%);
+#new-poll-form input[type="text"]
+{
+	border-radius: 3px;
+	font-size: 18px;
+	min-width: 400px;
 }
-
-.navbar ul {
-    height: 100%;
-    list-style-type: none;
-    margin-right: 10px;
+#new-poll-form label
+{
+	font-size: 20px;
+	margin-right: 15px;
+	width: 150px;
 }
-
-.navbar ul li {
-    display: inline;
-    height: 100%;
-    font-size: 20px;
-    margin-left: 20px;
+#poll-create:disabled
+{
+	background-color: #7F7F7F;
+	border: 2px solid rgba(225,225,225,.8);
+	border-radius: 5px;
+	color: rgb(222,222,222);
+	display: block;
+	font-size: 16px;
+	font-weight: 400;
+	letter-spacing: .5em;
+	margin: 10px auto 15px auto;
 }
-
-.navbar ul li a {
-    height: 100%;
+#poll-create:enabled
+{
+	background-color: #207F20;
+	border: 2px solid rgba(225,245,225,.8);
+	border-radius: 5px;
+	box-shadow: 0px 0px 15px green;
+	color: white;
+	display: block;
+	font-size: 16px;
+	font-weight: 400;
+	letter-spacing: .5em;
+	margin: 10px auto 15px auto;
+	transition: all 300ms;
 }
-
-.navbar-right .active {
-    background-color:hsla(70,50%,96%,1);
-    color: #555 !important; /* Override Bootstrap */
+#poll-create:enabled:focus, #poll-create:enabled:hover
+{
+	box-shadow: 0px 0px 30px yellow;
 }
-
-.brand {
-    display: table-cell;
-    position: relative;
-    top: 50%;
+#results-legend {
+ 	border: 1px outset rgba(0,0,0,0.4);
+	box-shadow: 0 10px 6px -6px #777, inset 0px 0px 1px 1px rgba(0,0,0,0.3);
+	border-collapse: collapse;
+	display: block;
+	margin: 0px auto 15px auto;
+	width: 550px;
 }
-
-@-webkit-keyframes voteglow {
-    0% {
-        box-shadow: 0px 0px 00px 1px green;
-    }
-    50% {
-        box-shadow: 0px 0px 20px 1px green;
-    }
-    100% {
-        box-shadow: 0px 0px 0px 1px green;
-    }
+#results-legend div span {
+    margin-left: 3px;
+    margin-right: 3px;
 }
-
-#cast-vote-button:disabled {
-    background-image: radial-gradient(ellipse at center, hsl(0, 60%, 90%) 0%, hsl(0, 60%, 95%) 100%);
-    font-style: italic;
-    color: hsl(0,30%,70%) ;
+#sign-in
+{
+	background-color: hsl(210, 100%, 70%);
+	border-radius: 10px;
+	box-shadow: inset 0px 0px 2px 4px rgba(0,0,0,.2);
+	font-family: "Arimo", Helvetica, Arial, sans-serif;
+	text-shadow: 2px 2px 2px rgba(0,0,0,.2);
+	transition-duration: 0.2s;
+	transition-property: background-color;
+	transition-timing-function: linear;
 }
-
-#cast-vote-button:enabled {
-    -webkit-animation: voteglow 2s infinite;
-    background-image: radial-gradient(ellipse at center, hsl(110, 100%, 30%) 0%, hsl(110, 100%, 35%) 100%);
-    color:white;
+#sign-in a
+{
+	color: white;
 }
-
-#cast-vote-button:enabled:hover {
-    -webkit-animation: voteglow 2s infinite;
-    background-image: radial-gradient(ellipse at center, hsl(110, 100%, 60%) 0%, hsl(110, 100%, 65%) 100%);
-    color:white;
+#sign-in:hover
+{
+	background-color: hsl(205, 100%, 70%);
+	border-radius: 10px;
+	box-shadow: inset 0px 0px 2px 2px rgba(0,0,0,.2),
+ 0px 0px 2px 2px rgba(255,255,255,.6);
+	text-shadow: 2px 2px 2px rgba(0,0,0,.2);
+	transition-duration: 0.2s;
+	transition-property: background-color;
+	transition-timing-function: linear;
 }
-
-#cast-vote-button {
-    display:block;
-    margin-top: 5px;
+#sign-out
+{
+	background-color: hsl(210, 100%, 70%);
+	border-radius: 10px;
+	box-shadow: inset 0px 0px 2px 2px rgba(0,0,0,.2),
+ 0px 0px 2px 2px rgba(255,255,255,.6);
+	color: white;
+	font-family: "Arimo", Helvetica, Arial, sans-serif;
+	text-shadow: 2px 2px 2px rgba(0,0,0,.2);
+	transition-duration: 0.2s;
+	transition-property: background-color;
+	transition-timing-function: ease-in-out;
 }
-
-#custom-option-pane {
-    padding-left: 5px;
+#sign-out a
+{
+	color: white;
 }
-
-#header-title {
-    color: rgba(10, 100, 200, 1);
-    font-family: "Arimo", Helvetica, Arial, sans-serif;
-    font-weight: 400;
-    letter-spacing: 0.2em;
-    text-align: center;
-    text-shadow: 2px 2px 2px rgba(0,0,0,.2);
+#sign-out:hover
+{
+	background-color: black;
+	border-radius: 10px;
+	box-shadow: inset 0px 0px 2px 2px rgba(255,255,255,1);
+    color: white;
+	font-family: "Arimo", Helvetica, Arial, sans-serif;
+	text-shadow: 2px 2px 2px rgba(0,0,0,.2);
 }
-
-input[type="text"] {
-    background-color: hsl(49, 100%, 98%);
-    border-radius:5px;
+#vote-form {
+    display: inline-block;
+    vertical-align: middle;
 }
-
-input[type="submit"], button[type="submit"] {
-    border-radius:5px;
-}
-
-#new-poll-form div {
-    margin-bottom: 4px;
-}
-
-#new-poll-form input[type="text"] {
-    border-radius: 3px;
+#vote-form p {
     font-size: 18px;
-    min-width: 400px;
 }
-
-#new-poll-form label {
-    font-size: 20px;
-    margin-right: 15px;
-    width: 150px;
+#vote-pane:before {
+    content: ' ';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
 }
-
-.notice {
+#vote-pane {
+    border: 1px outset rgba(0,0,0,0.4);
+    box-shadow: 0 10px 6px -6px #777, inset 0px 0px 1px 1px rgba(0,0,0,0.3);
+    height: 350px;
     text-align: center;
-    font-family: "Arimo", Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    margin-bottom: 80px;
 }
-
-.unused {
-    color: rgba(0,0,0,0.3);
+.arc path
+{
+	stroke: #000000;
 }
-
-#create-poll-div {
-    margin-top: 15px;
-    margin-bottom: 15px;
+.arc text
+{
+	font: 10px sans-serif;
 }
-
-#poll-create:enabled { /* button */
-    background-color: #207F20;
-    border: 2px solid rgba(225,245,225,.8);
-    border-radius: 5px;
-    box-shadow: 0px 0px 15px green;
-    color: white;
-    display: block;
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: .5em;
-    margin: 10px auto 15px auto;
-    transition: all 300ms;
+.brand
+{
+	display: table-cell;
+	position: relative;
+	top: 50%;
 }
-
-#poll-create:enabled:focus, #poll-create:enabled:hover {
-    box-shadow: 0px 0px 30px yellow;
+.container-body
+{
+	background-color: white;
+	border-radius: 5px;
+	box-shadow: 0 0 4px rgba(225, 225, 245, 1), inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
-
-#poll-create:disabled {
-    background-color: #7F7F7F;
-    border: 2px solid rgba(225,225,225,.8);
-    border-radius: 5px;
-    color: rgb(222,222,222);
-    display: block;
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: .5em;
-    margin: 10px auto 15px auto;
+.container-head
+{
+	margin-top: 6px;
 }
-
-.poll-author {
-    font-weight: 400;
-    font-size: 18px;
-    letter-spacing: .2em;
-    margin-bottom: 10px;
-    margin-top: -20px;
-    text-align: left;
-    text-shadow: 2px 2px 2px #BBB;    
+.custom-label
+{
+	display: block;
+	font-size: 10px;
+	font-style: italic;
+	font-weight: normal;
+	margin-bottom: 0px;
+	margin-top: 10px;
 }
-
-.poll-list {
-    list-style-type: none;
-    padding-left: 10px;
+.navbar
+{
+	background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%);
+	border-radius: 5px;
+	box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+	position: relative;
 }
-.poll-list li {
-    background-color: hsl(210, 100%, 90%);
-    border-radius: 5px;
-    box-shadow: inset 0px 0px 5px black;
-    font-size: 16px;
-    margin-bottom: 5px;
-    padding: 2px 6px 2px 6px;
-    transition: all 300ms;
+.navbar span
+{
+	position: absolute;
+	top: 50%;
+	transform: translate(0, -50%);
 }
-.poll-list li:hover {
-    background-color: hsl(70, 100%, 90%);
+.navbar ul
+{
+	height: 100%;
+	list-style-type: none;
+	margin-right: 10px;
 }
-.poll-list a:hover {
-    text-decoration: none;
-    color: black;
+.navbar ul li
+{
+	display: inline;
+	font-size: 20px;
+	height: 100%;
+	margin-left: 20px;
 }
-
-.poll-options-pane {
-    min-height: 400px;
+.navbar ul li a
+{
+	height: 100%;
 }
-
-.poll-options-pane select {
-    font-size: 24px;
-    min-width: 200px;
+.navbar-right
+{
+	text-shadow: 2px 2px 2px rgba(0,0,0,0.2);
 }
-
-.poll-results-pane {
-    border-left: 1px dotted black;
-    min-height: 400px; 
+.navbar-right .active
+{
+	background-color: hsla(70,50%,96%,1);
+	color: #555 !important;
 }
-
-.slice {
-    pointer-events: all;
-    stroke: black;
-    stroke-width: 3px;
-    stroke-opacity: 0.9;
+.notice
+{
+	font-family: "Arimo", Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	font-weight: 500;
+	margin-bottom: 80px;
+	text-align: center;
 }
-
-.title-hr {
-    background-image: linear-gradient(to right, hsla(210, 100%, 90%, 0), hsla(210, 100%, 90%, 0.75), hsla(210, 100%, 90%, 0));
-    height: 5px;
-    margin-top: -8px;
-    margin-bottom: 20px;
+.poll-author
+{
+	font-size: 18px;
+	font-weight: 400;
+	letter-spacing: .2em;
+	margin-bottom: 10px;
+	margin-top: -20px;
+	text-align: right;
+	text-shadow: 2px 2px 2px #BBB;
 }
-
-.tooltip {
-    background-color: hsl(210, 100%, 70%);
-    border-radius: 5px;
-    border: 2px solid white;
-    color: white;
-    font-family: "Arimo", Helvetica, Arial, sans-serif;
-    font-size: 12px;
-    height: auto;
-    padding: 3px;
-    pointer-events: none;
-    position: absolute;
-    width: auto;
+.poll-list
+{
+	list-style-type: none;
+	padding-left: 10px;
 }
-
-#sign-in {
-    background-color: hsl(210, 100%, 70%);
-    border-radius: 10px;
-    box-shadow: inset 0px 0px 2px 4px rgba(0,0,0,.2);
-    font-family: "Arimo", Helvetica, Arial, sans-serif;
-    text-shadow: 2px 2px 2px rgba(0,0,0,.2);
-    transition-property: background-color;
-    transition-duration: 0.2s;
-    transition-timing-function: linear;
+.poll-list a:hover
+{
+	color: black;
+	text-decoration: none;
 }
-
-#sign-in:hover {
-    background-color: hsl(205, 100%, 70%);
-    border-radius: 10px;
-    box-shadow: 
-        inset 0px 0px 2px 2px rgba(0,0,0,.2),
-        0px 0px 2px 2px rgba(255,255,255,.6);
-    text-shadow: 2px 2px 2px rgba(0,0,0,.2);
-    transition-property: background-color;
-    transition-duration: 0.2s;
-    transition-timing-function: linear;
+.poll-list li
+{
+	background-color: hsl(210, 100%, 90%);
+	border-radius: 5px;
+	box-shadow: inset 0px 0px 5px black;
+	font-size: 16px;
+	margin-bottom: 5px;
+	padding: 2px 6px 2px 6px;
+	transition: all 300ms;
 }
-
-#sign-in a {
-    color:white;
+.poll-list li:hover
+{
+	background-color: hsl(70, 100%, 90%);
 }
-
-#sign-out a {
-    color:white;
+.poll-options-pane
+{
+	min-height: 400px;
 }
-
-#sign-out {
-    background-color: hsl(210, 100%, 70%);
-    border-radius: 10px;
-    box-shadow: 
-        inset 0px 0px 2px 2px rgba(0,0,0,.2),
-        0px 0px 2px 2px rgba(255,255,255,.6);
-    color: white;
-    font-family: "Arimo", Helvetica, Arial, sans-serif;
-    text-shadow: 2px 2px 2px rgba(0,0,0,.2);
-    transition-property: background-color;
-    transition-duration: 0.2s;
-    transition-timing-function: ease-in-out;
+.poll-options-pane select
+{
+	font-size: 24px;
+	min-width: 200px;
 }
-
-#sign-out:hover {
-    background-color: black;;
-    border-radius: 10px;
-    box-shadow: inset 0px 0px 2px 2px rgba(255,255,255,1),
-    color: white;
-    font-family: "Arimo", Helvetica, Arial, sans-serif;
-    text-shadow: 2px 2px 2px rgba(0,0,0,.2);
+.poll-results-pane
+{
+	border-left: 1px dotted black;
+	min-height: 400px;
+}
+.slice
+{
+	pointer-events: all;
+	stroke: black;
+	stroke-opacity: 0.9;
+	stroke-width: 3px;
+}
+.subcontainer-head {
+    font-weight: 100;
+    letter-spacing: 5px;
+    margin-top: 0px;
+    text-transform: lowercase;
+}
+.title-hr
+{
+	background-image: linear-gradient(to right, hsla(210, 100%, 90%, 0), hsla(210, 100%, 90%, 0.75), hsla(210, 100%, 90%, 0));
+	height: 5px;
+	margin-bottom: 20px;
+	margin-top: -8px;
+}
+.tooltip
+{
+	background-color: hsl(210, 100%, 70%);
+	border: 2px solid white;
+	border-radius: 5px;
+	color: white;
+	font-family: "Arimo", Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	height: auto;
+	padding: 3px;
+	pointer-events: none;
+	position: absolute;
+	width: auto;
+}
+.unused
+{
+	color: rgba(0,0,0,0.3);
+}
+@-webkit-keyframes voteglow
+{
+	0%
+	{
+		box-shadow: 0px 0px 00px 1px green;
+	}
+	100%
+	{
+		box-shadow: 0px 0px 0px 1px green;
+	}
+	50%
+	{
+		box-shadow: 0px 0px 20px 1px green;
+	}
+}
+body
+{
+	background-image: radial-gradient(ellipse at center, rgba(250,250,255,1) 0%, rgba(240,255,255,1) 47%, rgba(210,210,245,1) 100%);
+}
+html
+{
+	height: 100%;
+}
+input[type="submit"], button[type="submit"]
+{
+	border-radius: 5px;
+}
+input[type="text"]
+{
+	background-color: hsl(49, 100%, 98%);
+	border-radius: 5px;
 }

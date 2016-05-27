@@ -2,6 +2,10 @@
 
 $( document ).ready(function() {
     
+    // https://github.com/d3/d3/wiki/Ordinal-Scales#category20
+    var color       = d3.scale.category20();
+    window.color = color;
+    
     if (document.getElementById("button-" + window.location.pathname.substr(1)) !== null) {
         $("#button-" + window.location.pathname.substr(1)).addClass("active");
     }
@@ -54,7 +58,7 @@ $( document ).ready(function() {
         console.log("drawChart called");
         console.dir(data);
         
-        var svg = d3.select("#chart-container").append("svg")
+        var svg = d3.select("#chart-container").insert("svg",":first-child")
             .attr("id", "chart")
         
         //We use these values, set by CSS, to center the chart in its container
@@ -74,9 +78,6 @@ $( document ).ready(function() {
         //Create our main group (in the center)
         console.log("append a 'g' with: " + "transform", "translate(" + containerWidth / 2 + "," + containerHeight / 2 + ")");
         
-        // https://github.com/d3/d3/wiki/Ordinal-Scales#category20
-        var color       = d3.scale.category20();
-        window.foo = color;
         
         var arc         = d3.svg.arc().outerRadius(radius);
         var labelArc    = d3.svg.arc().outerRadius(radius - 35).innerRadius(radius - 35);
@@ -93,7 +94,7 @@ $( document ).ready(function() {
             .attr('d', arc)
             .attr('class', 'slice')
             .attr('fill', function(d, i) {
-                return color(d.data.optionLabel);
+                return color(d.data.nOption);
             })
             .on("mouseover", function (d) {
                 console.dir(d);
@@ -131,6 +132,29 @@ $( document ).ready(function() {
         
     }
     
+    var drawLegend = function(data) {
+        for (var i=0; i < data.length; i++) {
+            var div = document.createElement("div");
+            var colorSpan = document.createElement("span");
+            colorSpan.innerHTML = "&block;";
+            colorSpan.style.color = color(i);
+            div.appendChild(colorSpan);
+            var descSpan = document.createElement("span");
+            descSpan.textContent = data[i].optionLabel + ": ";
+            if (data[i].nVotes > 1) {
+                descSpan.textContent += data[i].nVotes + " votes";
+            }
+            else if (data[i].nVotes == 1) {
+                descSpan.textContent += "1 vote";
+            }
+            else {
+                descSpan.textContent += "no votes";
+            }
+            div.appendChild(descSpan);
+            document.getElementById("results-legend").appendChild(div);
+        }
+    }
+    
     if(window.location.pathname.split("/")[1] == "poll" && window.location.pathname.split("/")[2].length == 24) {
         var currentPath = window.location.pathname.split("/");
         console.log("We are at a poll page!!");
@@ -146,6 +170,7 @@ $( document ).ready(function() {
                 console.dir(status);
                 document.dcopy = data;
                 drawChart(data);
+                drawLegend(data);
             }
         })
     }
