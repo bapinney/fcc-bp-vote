@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 //var passport = require('./models/user');
+var assert = require('assert');
 var passport = require('passport');
 var pug = require('pug');
 var bodyParser = require('body-parser');
@@ -46,6 +47,52 @@ router.get('/authreturn', function(req, res) {
         res.redirect('/mypolls');
     }
 });
+
+router.get('/delete*', loggedIn, function (req, res) {
+    if (typeof req.query.type == "undefined" || typeof req.query.id == "undefined") {
+        return false;
+    }
+    console.log("Delete called");
+    var currentUser = req.user;
+    console.log("User is...");
+    console.dir(currentUser);
+    var pollID = req.query.id;
+    console.log("Poll is " + req.query.id);
+    //Find the poll
+    var Poll = require('../models/poll.js');
+    Poll.findOne({
+        _id: pollID
+    }, function (err, doc) {
+        if (err) {
+            console.error(err);
+            res.send("Error");
+        }
+        if (doc) {
+            var pollOwner = doc._doc.pollOwner[0]._doc;
+            console.log("Poll owner is...");
+            console.dir(pollOwner);
+            if (currentUser.provider !== pollOwner.userProvider ||
+                currentUser.id       !== pollOwner.userId ||
+                currentUser.username !== pollOwner.userName) {
+                res.json({result:false, message:"Credentials do not match poll owner"});
+                return false;
+            }
+            Poll.remove({_id: pollID}, function(err, result) {
+                if (err) {
+                    console.log("Error when removing poll: " + err);
+                    res.json({result: false, message: err});
+                    return false;
+                }
+                if (result) {
+                    console.log("Remove poll result: " + result);
+                    res.json({  result: true,
+                        message: "Poll deleted"});
+                    return true;
+                }
+            });
+        }
+    });
+})
 
 router.get('/getChartData/*', function (req, res) {
     var chartID = req.params[0];
@@ -114,7 +161,8 @@ router.get('/poll/*', function(req, res) {
                 res.send("Poll not found");
             }
             else {
-                //console.dir(doc._doc);
+                console.log("Poll found");
+                console.dir(doc._doc.pollOwner[0]._doc);
                 var html = pug.renderFile('./views/poll.pug', {
                     poll: doc._doc,
                     "username": (typeof req.user !== 'undefined' && typeof req.user.username !== 'undefined')? req.user.username : undefined

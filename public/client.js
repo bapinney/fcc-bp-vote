@@ -3,14 +3,48 @@
 $( document ).ready(function() {
     
     // https://github.com/d3/d3/wiki/Ordinal-Scales#category20
-    var color       = d3.scale.category20();
-    window.color = color;
+    var color;
     
     new Clipboard('.cb-copy');
     
     if (document.getElementById("button-" + window.location.pathname.substr(1)) !== null) {
         $("#button-" + window.location.pathname.substr(1)).addClass("active");
     }
+    
+    $("#delete-btn").click(function() {
+        $("#confirm-delete-pane").slideToggle();
+        $("#dp-button").focus();
+    });
+    
+    $("#dp-button").click(function() {
+        //Get the poll id
+        var pathArr = document.location.pathname.split("/");
+        if (pathArr[1] !== "poll") {
+            return false;
+        }
+        $.ajax({
+            url: "/delete",
+            data: {
+                type: "poll",
+                id: pathArr[2]
+            },
+            type: "GET",
+            dataType: "json",
+        })
+        .done(function(json) {
+            console.log("ajax finished...");
+            console.dir(json);
+            if (json.hasOwnProperty("result") && json.result === false) {
+                alert("Unable to delete poll.  \nReason: \"" + json.message + "\"");
+                return false;
+            }
+            if (json.hasOwnProperty("result") && json.result === true) {
+                alert("Poll deleted");
+                document.location.href = "/";
+                return true;
+            }
+        });
+    })
     
     $("#share-btn").click(function(e) {
         e.preventDefault();
@@ -69,6 +103,8 @@ $( document ).ready(function() {
         
         var svg = d3.select("#chart-container").insert("svg",":first-child")
             .attr("id", "chart")
+        
+        color = d3.scale.category20();
         
         //We use these values, set by CSS, to center the chart in its container
         var containerWidth = document.getElementById("chart-container").clientWidth;
