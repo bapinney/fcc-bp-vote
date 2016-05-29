@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json()
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 var poll = require('./poll.js');
+var Poll = require('../models/poll.js');
 
 var loggedIn = function(req, res, next) {
     if (req.user) {
@@ -218,12 +219,5 @@ router.get('/', function(req, res){
         }); // </exec>
     // </Poll>
 });
-
-/* Use this to build a skeleton, then remove */
-/*
-router.get('/', function(req, res) {
-    res.sendFile(global.rootDir + '/public/sindex.html');
-});
-*/
 
 module.exports = router;

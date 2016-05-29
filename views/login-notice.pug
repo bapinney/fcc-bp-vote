@@ -1,9 +1,6 @@
-//- Reminder to match the indentation of the previous element in header.pug, so we do not close off tags we need to add on to
-doctype html
-html
-    include ./head.pug
-    include ./header.pug
-    main(class="container container-body")
-        h1(id="header-title") Please sign in
-        hr(class="title-hr")
-        div(class="notice") You must be logged in to view, vote, or create polls.  Please sign in using the link above.
+include ./head.pug
+include ./header.pug
+main(class="container container-body")
+    h1(id="header-title") Please sign in
+    hr(class="title-hr")
+    div(class="notice") You must be logged in to view, vote, or create polls.  Please sign in using the link above.
