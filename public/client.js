@@ -142,20 +142,27 @@ $( document ).ready(function() {
                 return color(d.data.nOption);
             })
             .on("mouseover", function (d) {
-                console.dir(d);
+                //console.dir(d);
                 tip.transition()
-                    .duration(500)
+                    .duration(2000)
                     .style("opacity", 0);
                 tip.transition()
                     .duration(200)
                     .style("opacity", .9);
-                tip.text(d.data.nVotes + " votes")
+                if (d.data.nVotes == 0) { var votesText = "no votes"; }
+                if (d.data.nVotes == 1) { var votesText = "1 vote"; }
+                if (d.data.nVotes > 1) { var votesText = d.data.nVotes + " votes"; }
+                tip
+                    .html(d.data.optionLabel + "<br>" + votesText)
                     .style("left", (d3.event.pageX - 0) + "px") //Don't change the X's.  It's nice to have the left-edge of the tooltip directly over the pointer
                     .style("top", (d3.event.pageY - 50) + "px");
             })
             .on("mousemove", function(d) {
+                if (d.data.nVotes == 0) { var votesText = "no votes"; }
+                if (d.data.nVotes == 1) { var votesText = "1 vote"; }
+                if (d.data.nVotes > 1) { var votesText = d.data.nVotes + " votes"; }
                 tip
-                    .html(d.data.optionLabel + "<br>" + d.data.nVotes + " votes")
+                    .html(d.data.optionLabel + "<br>" + votesText)
                     .style("left", (d3.event.pageX - 0) + "px")
                     .style("top", (d3.event.pageY - 50) + "px");
             })
