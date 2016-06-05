@@ -45,8 +45,14 @@ router.get('/auth/twitter/callback', passport.authenticate('twitter', {
 }));
 
 router.get('/authreturn', function(req, res) {
-    if (req.session.cburl.length > 0) {
-        res.redirect(req.session.cburl);
+    console.log("Auth return called...");
+    if (typeof req.session.cburl !== "undefined" && req.session.cburl.length > 0) {
+        console.log("Valid callback URL: " + req.session.cburl);
+        //res.write("Redirecting...");
+        res.redirect('/mypolls');
+        //res.end();
+        //console.log("End called");
+        //res.redirect(req.session.cburl);
     }
     else {
         res.redirect('/mypolls');
@@ -207,6 +213,7 @@ router.get('/home', function(req, res){
                 polls.push(docs[i]._doc);
             }
             if (req.hasOwnProperty("user") && req.user.hasOwnProperty("username")) {
+                console.log("We have a user, here!");
                 var html = pug.renderFile('./views/home.pug', {
                     title: "Home", 
                     polls: polls,
@@ -214,6 +221,7 @@ router.get('/home', function(req, res){
                 });
             }
             else {
+                console.log("We don't have a user here!");
                 var html = pug.renderFile('./views/home.pug', {
                     title: "Home", 
                     polls: polls,
@@ -225,8 +233,18 @@ router.get('/home', function(req, res){
 });
 
 router.get('/', function(req, res) {
-    var html = pug.renderFile('./views/shell.pug');
-    res.send(html);
+    if (req.hasOwnProperty("user") && req.user.hasOwnProperty("username")) {
+        var html = pug.renderFile('./views/shell.pug', {
+            title: "Home",
+            username: req.user.username
+        });
+    }
+    else { //We have no user
+        var html = pug.renderFile('./views/shell.pug', {
+            title: "Home"
+        });
+        res.send(html);
+    }
 });
 
 module.exports = router;
