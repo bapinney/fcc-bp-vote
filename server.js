@@ -61,22 +61,22 @@ var doInit = function () { //Initialization that begins once the app verifies we
             process.nextTick(function () { //Asynchronous
 
                 //Find or Create
-                console.log("Searching for user ID " + profile.id)
+                console.log(chalk.bgBlack.yellow("Searching for user ID ") + profile.id);
                 User.findOne({
                         provider: "twitter",
                         id      : profile.id
                     },
                     function (err, user) {
-                        console.log("User callback");
+                        console.log(chalk.bgBlack.yellow("User callback"));
                         if (err) {
-                            console.log("Error: " + err);
+                            console.log(chalk.bgBlack.red("Error: " + err));
                             callback(err);
                         }
                         if (user) { //We found the user
-                            console.log("User found");
+                            console.log(chalk.bgBlack.green("User found"));
                             return callback(null, user);
                         } else { //User does not exist
-                            console.log("User does not exist, yet");
+                            console.log(chalk.bgWhilte.black("User does not exist, yet"));
                             var newUser = new User({
                                 provider    : "twitter",
                                 id          : profile.id,
@@ -119,10 +119,10 @@ if (!(process.env.TWITTER_CONSUMER_KEY)) {
 }
 if (process.env.TWITTER_CONSUMER_KEY) { //We use twitter for auth, so if this is not set, the program should exit
     if (!(process.env.MONGO_VOTE_URI)) {
-        console.log("Mongo URI not supplied.  Exiting...");
+        console.log(chalk.bgWhilte.red("Mongo URI not supplied.  Exiting..."));
     }
     else {
-        console.log("Waiting to connect to MongoDB...");
+        console.log(chalk.bgBlue.white("Waiting to connect to MongoDB..."));
         mongoose.connect(process.env.MONGO_VOTE_URI);
         global.db = mongoose.connection;
         
@@ -134,10 +134,10 @@ if (process.env.TWITTER_CONSUMER_KEY) { //We use twitter for auth, so if this is
         });
         
         global.db.once('open', function () {
-            console.log("Connected to MongoDB.  Running init...");
+            console.log(chalk.bgGreen.white("Connected to MongoDB.") + " Running init...");
             doInit(); //Initialize
         });
     }
 } else {
-    console.log("No Twitter CKEY supplied.  Exiting...");
+    console.log(chalk.bgRed.white("No Twitter CKEY supplied.  Exiting..."));
 }

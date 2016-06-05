@@ -10,6 +10,12 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 var poll = require('./poll.js');
 var Poll = require('../models/poll.js');
 
+/**
+ * Middleware to check if the user is logged in.  If not, redirect user to /login
+ * @param {object}   req  Request
+ * @param {object} res  Reaponse
+ * @param {function} next Next
+ */
 var loggedIn = function(req, res, next) {
     if (req.user) {
         next();
@@ -18,8 +24,6 @@ var loggedIn = function(req, res, next) {
         res.redirect('/login');
     }
 };
-
-//router.get('/auth/twitter', passport.authenticate('twitter'));
 
 router.get('/auth/twitter', function (req, res, next) {
     console.log("auth twitter called");
@@ -190,7 +194,7 @@ router.post('/submit-vote', urlencodedParser, function(req, res) {
     poll.castVote(req, res);
 });
 
-router.get('/', function(req, res){
+router.get('/home', function(req, res){
     var Poll = require('../models/poll.js');
     var polls = [];
     
@@ -218,6 +222,11 @@ router.get('/', function(req, res){
             res.send(html);
         }); // </exec>
     // </Poll>
+});
+
+router.get('/', function(req, res) {
+    var html = pug.renderFile('./views/shell.pug');
+    res.send(html);
 });
 
 module.exports = router;
