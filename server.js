@@ -12,6 +12,7 @@ var MongoClient = require('mongodb').MongoClient;
 var findOrCreate = require('mongoose-findorcreate'); //Adds a findOrCreate for Mongoose models -- https://www.npmjs.com/package/mongoose-findorcreate
 var mongoose = require('mongoose');
 var pug = require('pug'); //Pug is the new Jade
+app.set('view engine', 'pug');
 global.rootDir = __dirname;
 var passport = require('passport');
 var bodyParser = require('body-parser');

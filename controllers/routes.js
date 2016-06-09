@@ -47,15 +47,15 @@ router.get('/auth/twitter/callback', passport.authenticate('twitter', {
 router.get('/authreturn', function(req, res) {
     console.log("Auth return called...");
     if (typeof req.session.cburl !== "undefined" && req.session.cburl.length > 0) {
+        //Note to self:  Now that we are using Angular, the callback URL is going to act differently
         console.log("Valid callback URL: " + req.session.cburl);
-        //res.write("Redirecting...");
-        res.redirect('/mypolls');
-        //res.end();
-        //console.log("End called");
+        res.redirect("/");
+        res.end(); //End this request since the browser will make a seperate request for the page we are redirecting to
+        console.log("End called");
         //res.redirect(req.session.cburl);
     }
     else {
-        res.redirect('/mypolls');
+        res.redirect('/');
     }
 });
 
@@ -134,6 +134,7 @@ router.get('/logout', function(req, res) {
 
 //Note the loggedIn middleware function to ensure the user is logged in before displaying the page
 router.get('/mypolls', loggedIn, function(req, res) {
+    console.log("mypolls called");
     //Remember this is asynchronous, so put the stuff we need to do, afterwards, in the callback
     Poll.find({
         'pollOwner.userProvider': req.user.provider,
@@ -238,6 +239,7 @@ router.get('/', function(req, res) {
             title: "Home",
             username: req.user.username
         });
+        res.send(html);
     }
     else { //We have no user
         var html = pug.renderFile('./views/shell.pug', {
