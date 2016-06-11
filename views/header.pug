@@ -15,15 +15,15 @@ body(ng-app="fcc-bp-vote")
                     div(class="collapse navbar-collapse" target="navbar-collapse")
                         ul(class="nav navbar-nav navbar-right")
                             li 
-                                a(ui-sref="/") Home
+                                a(ui-sref="home") Home
                             if typeof username != 'undefined'
                                 li
-                                    a(ui-sref="/mypolls" id="button-mypolls") My Polls
+                                    a(ui-sref="mypolls" id="button-mypolls") My Polls
                                 li
-                                    a(ui-sref="/new" id="button-new") New Poll
+                                    a(ui-sref="new" id="button-new") New Poll
                             if typeof username != 'undefined'
                                 li(id="sign-out")
-                                    a(ui-sref="/logout" title="Sign out")
+                                    a(ui-sref="logout" title="Sign out")
                                         i(class="fa fa-sign-out" display="inline !important" aria-hidden="true")
                                         |&nbsp;#{username}
                             else

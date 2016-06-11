@@ -14,6 +14,9 @@ var mongoose = require('mongoose');
 var pug = require('pug'); //Pug is the new Jade
 app.set('view engine', 'pug');
 global.rootDir = __dirname;
+var path = require('path');
+app.set('views', path.join(global.rootDir, "views")); //Used by Pug/Jade to find templates
+console.log("Debug: Views dir is: " + path.join(global.rootDir, "views"));
 var passport = require('passport');
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }))

@@ -17,10 +17,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('mypolls', {
             url: '/mypolls',
-            templateProvider: 'mypolls'
-        })
-        .state('poll', {
-            url: '/poll',
-            templateUrl: 'poll'
+            templateUrl: 'mypolls'
         });
+
 });
