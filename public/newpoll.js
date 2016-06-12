@@ -3,8 +3,8 @@ $(document).ready(function() {
     //$("input[id|='poll-option']").bind('input', function() {
     $("#new-poll-form").delegate("input", "keyup", function() {
         
-        console.log($(this)[0].parentNode);
-        console.log($("#new-poll-form")[0].children[$("#new-poll-form")[0].children.length - 2]);
+        //console.log($(this)[0].parentNode);
+        //console.log($("#new-poll-form")[0].children[$("#new-poll-form")[0].children.length - 2]);
         
         //If the text input's parent div is the 2nd-to-last div in the FORM, and that input has text...
         if (

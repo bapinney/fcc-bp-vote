@@ -11,9 +11,9 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             url: '/home',
             templateUrl: 'home'
         })
-        .state('text', {
-            url: '/test',
-            templateUrl: 'test'
+        .state('new', {
+            url: '/new',
+            templateUrl: 'new' //Resolves to newpoll.pug in routes.js
         })
         .state('mypolls', {
             url: '/mypolls',
