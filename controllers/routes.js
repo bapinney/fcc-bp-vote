@@ -163,6 +163,37 @@ router.get('/poll/*', function(req, res) {
         res.end();
     }
     else {
+        console.log("About to dir req...");
+        console.dir(req);
+        var Poll = require('../models/poll.js');
+        Poll.findOne({_id: req.params[0]}, function(err, doc) {
+            if (err) {
+                console.error(err);
+                res.send("There was an error: " + err);
+            }
+            else if (doc === null) {
+                res.send("Poll not found");
+            }
+            else {
+                console.log("Poll found");
+                console.dir(doc._doc.pollOwner[0]._doc);
+                var html = pug.renderFile('./views/poll.pug', {
+                    poll: doc._doc,
+                    "username": (typeof req.user !== 'undefined' && typeof req.user.username !== 'undefined')? req.user.username : undefined
+                });
+                res.send(html);
+            }
+        });
+    }
+});
+
+/*
+router.get('/poll/*', function(req, res) {
+    if (typeof req.params[0] !== "string" || req.params[0].length == 0) {
+        res.status(500).json({error: "No poll ID provided"});
+        res.end();
+    }
+    else {
         var Poll = require('../models/poll.js');
         Poll.findOne({_id: req.params[0]}, function(err, doc) {
             if (err) {
@@ -184,6 +215,7 @@ router.get('/poll/*', function(req, res) {
         });
     }
 })
+*/
 
 router.get('/new', loggedIn, function(req, res) {
     var html = pug.renderFile('./views/newpoll.pug', {"username" : req.user.username});

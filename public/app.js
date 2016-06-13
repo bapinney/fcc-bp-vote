@@ -18,15 +18,13 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         .state('mypolls', {
             url: '/mypolls',
             templateUrl: 'mypolls',
-            controller: function($scope) {
-                $scope.foo = "bar";
-            }
         })
-        .state('poll.pollid', {
-            url: '/poll/{pollid}',
-            templateUrl: 'poll',
-            controller: function($scope) {
-                console.log("state params!!1one");
+        //For a refresher on URL params, see: https://github.com/angular-ui/ui-router/wiki/URL-Routing
+    
+        .state('poll', {
+            url: '/poll/:id',
+            templateUrl: function($stateParams) { //We use this to get the poll ID from the Object in the ui-sref attribute for that poll, and then navigate to the URL with that ID
+                return '/poll/' + $stateParams.id;
             }
         });
 

@@ -3,5 +3,5 @@ h2(id="poll-list-label") Polls
 hr(class="title-hr")
 ul(class="poll-list")
     each poll in polls
-        a(ui-sref='poll.detail({pollID:' + 'goo' +'})')
+        a(ui-sref='poll({id: "' + poll._id + '"})')
             li= poll.question
