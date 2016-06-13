@@ -17,7 +17,17 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('mypolls', {
             url: '/mypolls',
-            templateUrl: 'mypolls'
+            templateUrl: 'mypolls',
+            controller: function($scope) {
+                $scope.foo = "bar";
+            }
+        })
+        .state('poll.pollid', {
+            url: '/poll/{pollid}',
+            templateUrl: 'poll',
+            controller: function($scope) {
+                console.log("state params!!1one");
+            }
         });
 
 });
