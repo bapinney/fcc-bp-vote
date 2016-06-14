@@ -2,5 +2,5 @@ h1(id="header-title") My Polls
 hr(class="title-hr")
 ul(class="poll-list")
     each poll in polls
-        a(href='/poll/' + poll._id)
+        a(ui-sref='poll({id: "' + poll._id + '"})')
             li= poll.question

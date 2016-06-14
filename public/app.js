@@ -25,7 +25,20 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             url: '/poll/:id',
             templateUrl: function($stateParams) { //We use this to get the poll ID from the Object in the ui-sref attribute for that poll, and then navigate to the URL with that ID
                 return '/poll/' + $stateParams.id;
-            }
+            },
         });
 
+});
+
+app.run(function($rootScope, $urlRouter) {
+    //Creates a listener for when Angular has changed states (or hard loaded a page anew).
+    $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {    
+        //If the name of the state is poll, call the JS that plots that data on the page, now that the state is loaded...
+        if (toState.name == "poll") {
+            console.log("stateChangeSuccess called.  Drawing poll...")
+            //We transitioned to a poll.  Call the pollInit() function to draw data.
+            pollInit();
+            console.log("pollInit called.  It is currently a typeof " + typeof pollInit);
+        }
+    });
 });

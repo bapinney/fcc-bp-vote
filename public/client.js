@@ -1,7 +1,11 @@
 /* Client-facing JS */
 
-$( document ).ready(function() {
+//$( document ).ready(function() {
+  
+var pollInit = function() {
     
+    console.log("Inside poll init");
+
     // https://github.com/d3/d3/wiki/Ordinal-Scales#category20
     var color;
     
@@ -19,14 +23,14 @@ $( document ).ready(function() {
     $("#dp-button").click(function() {
         //Get the poll id
         var pathArr = document.location.pathname.split("/");
-        if (pathArr[1] !== "poll") {
+        if (pathArr[2] !== "poll") {
             return false;
         }
         $.ajax({
             url: "/delete",
             data: {
                 type: "poll",
-                id: pathArr[2]
+                id: pathArr[3]
             },
             type: "GET",
             dataType: "json",
@@ -207,12 +211,15 @@ $( document ).ready(function() {
         }
     }
     
-    if(window.location.pathname.split("/")[1] == "poll" && window.location.pathname.split("/")[2].length == 24) {
+    console.log(window.location.hash.split("/")[1]);
+    console.log(window.location.hash.split("/")[2].length);
+    
+    if(window.location.hash.split("/")[1] == "poll" && window.location.hash.split("/")[2].length == 24) {
         var currentPath = window.location.pathname.split("/");
-        //console.log("We are at a poll page!!");
+        console.log("We are at a poll page!!");
         //Let's do some AJAX to get the chart data
-        var chartID = window.location.pathname.split("/")[2];
-        //console.log("Querying for chart " + chartID + "...");
+        var chartID = window.location.hash.split("/")[2];
+        console.log("Querying for chart " + chartID + "...");
         //console.dir(currentPath);
         var queryURL = window.location.origin + "/getChartData/" + chartID;
         $.ajax(queryURL, {
@@ -227,4 +234,4 @@ $( document ).ready(function() {
         })
     }
     
-});
+};
