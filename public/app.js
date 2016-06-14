@@ -32,13 +32,13 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
 app.run(function($rootScope, $urlRouter) {
     //Creates a listener for when Angular has changed states (or hard loaded a page anew).
-    $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {    
-        //If the name of the state is poll, call the JS that plots that data on the page, now that the state is loaded...
-        if (toState.name == "poll") {
-            console.log("stateChangeSuccess called.  Drawing poll...")
-            //We transitioned to a poll.  Call the pollInit() function to draw data.
-            pollInit();
-            console.log("pollInit called.  It is currently a typeof " + typeof pollInit);
+    $rootScope.$on('$viewContentLoaded', function(event) {    
+        if (typeof event.targetScope.$resolve !== "undefined" &&
+        typeof event.targetScope.$resolve.$$state.self.name !== "undefined") {
+            if (event.targetScope.$resolve.$$state.self.name == "poll") {
+                console.log("Calling pollInit().  Document readyState is " + document.readyState);
+                pollInit();
+            }
         }
     });
 });

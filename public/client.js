@@ -211,10 +211,7 @@ var pollInit = function() {
         }
     }
     
-    console.log(window.location.hash.split("/")[1]);
-    console.log(window.location.hash.split("/")[2].length);
-    
-    if(window.location.hash.split("/")[1] == "poll" && window.location.hash.split("/")[2].length == 24) {
+    var startDrawing = function() {
         var currentPath = window.location.pathname.split("/");
         console.log("We are at a poll page!!");
         //Let's do some AJAX to get the chart data
@@ -227,11 +224,19 @@ var pollInit = function() {
                 console.log("AJAX Success:  Echoing data and status...");
                 console.dir(data);
                 console.dir(status);
-                //document.dcopy = data;
                 drawChart(data);
                 drawLegend(data);
             }
-        })
+        });
+    }
+    
+    window.addEventListener("hashchange", function() {
+        console.log("The hash has changed");
+        if (window.location.hash.split("/")[1] == "poll") { startDrawing(); }
+    });
+    
+    if(window.location.hash.split("/")[1] == "poll" && window.location.hash.split("/")[2].length == 24) {
+        startDrawing();
     }
     
 };
