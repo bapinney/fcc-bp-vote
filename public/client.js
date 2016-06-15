@@ -105,8 +105,20 @@ var pollInit = function() {
         console.log("drawChart called");
         console.dir(data);
         
-        var svg = d3.select("#chart-container").insert("svg",":first-child")
-            .attr("id", "chart")
+        var svg;
+        
+        // This check is to see if Angular has not already rendered this view, previously, with the elements we needed already inserted into DOM
+        if ($("#chart-container").children().length == 0) {
+            console.log("Chart container currently has no children.  Inserting SVG...");
+            svg = d3.select("#chart-container").insert("svg",":first-child")
+            .attr("id", "chart");
+        }
+        else {
+            if ($("#chart-container").children()[0].id == "chart") {
+                console.log("Chart already exists.  Setting svg var...");
+                svg = d3.select("#chart");
+            }
+        }
         
         color = d3.scale.category20();
         
@@ -119,6 +131,8 @@ var pollInit = function() {
         var radius = Math.min(containerHeight, containerWidth) / 2.25;
         console.log("Radius is " + radius);
         
+        console.log("About to dir svg");
+        console.dir(svg);
         svg.attr("width", containerWidth).attr("height", containerHeight)
         
         var mainGroup = svg.append("g")

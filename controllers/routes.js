@@ -179,7 +179,9 @@ router.get('/poll/*', function(req, res) {
                 console.dir(doc._doc.pollOwner[0]._doc);
                 var html = pug.renderFile('./views/poll.pug', {
                     poll: doc._doc,
-                    "username": (typeof req.user !== 'undefined' && typeof req.user.username !== 'undefined')? req.user.username : undefined
+                    "userName": (typeof req.user !== 'undefined' && typeof req.user.username !== 'undefined')? req.user.username : undefined,
+                    "userId": (typeof req.user !== 'undefined' && typeof req.user.id !== 'undefined')? req.user.id : undefined,
+                    "userProvider": (typeof req.user !== 'undefined' && typeof req.user.provider !== 'undefined')? req.user.provider : undefined
                 });
                 res.send(html);
             }
