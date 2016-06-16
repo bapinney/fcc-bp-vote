@@ -203,6 +203,10 @@ var pollInit = function() {
     }
     
     var drawLegend = function(data) {
+        if ($("#results-legend").children().length > 0) {
+            //Removes all child-nodes from the legend, if they exist, before drawing anew.
+            $("#results-legend").empty();
+        }
         for (var i=0; i < data.length; i++) {
             var div = document.createElement("div");
             var colorSpan = document.createElement("span");

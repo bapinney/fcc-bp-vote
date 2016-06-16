@@ -19,7 +19,7 @@ div(class="row")
                     label(for="custom-option-input" class="custom-label") add your own option
                     input(id="custom-option-input" name="custom-vote" type="text")
                 button(accesskey="v" form="vote-form" type="submit" id="cast-vote-button" disabled) Cast #[u V]ote
-        if typeof username != 'undefined'
+        if typeof userName != 'undefined'
             div(id="sharing-pane")
                 a(href="#" id="share-btn")
                     i(aria-hidden="true" class="fa fa-share-alt-square" style="display: inline !important;")
@@ -29,7 +29,7 @@ div(class="row")
                     button(aria-label="Copy link" class="cb-copy" data-clipboard-target="#share-link" id="cb-copy" type="button")
                         i(aria-hidden="true" class="fa fa-files-o")
                         |  Copy
-            if poll.pollOwner[0]._doc.userName == username
+            if (poll.pollOwner[0].userName == userName && poll.pollOwner[0].userId == userId && poll.pollOwner[0].userProvider == userProvider)
                 div(id="remove-pane")
                     a(href="#" id="delete-btn")
                         i(aria-hidden="true" class="fa fa-trash-o" style="display: inline !important;")
