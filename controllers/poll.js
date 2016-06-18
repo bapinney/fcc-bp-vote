@@ -35,7 +35,10 @@ exports.create = function(req, res) {
         votes       : []
     });
     console.log("About to save poll...");
-    poll.save();
+    var pollSaveResult = poll.save(function(err, record) {
+        console.log("About to log record._doc._id");
+        console.log(record._doc._id);
+    });
     
     var html = pug.renderFile("./views/poll-submit.pug");
     res.write(html);

@@ -90,6 +90,9 @@
 	margin-right: 15px;
 	width: 150px;
 }
+#poll-create::first-letter {
+    text-decoration: underline;
+}
 #poll-create:disabled
 {
 	background-color: #7F7F7F;
@@ -99,7 +102,6 @@
 	display: block;
 	font-size: 16px;
 	font-weight: 400;
-	letter-spacing: .5em;
 	margin: 10px auto 15px auto;
 }
 #poll-create:enabled
@@ -112,7 +114,6 @@
 	display: block;
 	font-size: 16px;
 	font-weight: 400;
-	letter-spacing: .5em;
 	margin: 10px auto 15px auto;
 	transition: all 300ms;
 }

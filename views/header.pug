@@ -24,12 +24,18 @@ body(ng-app="fcc-bp-vote")
                     div(class="collapse navbar-collapse" target="navbar-collapse")
                         ul(class="nav navbar-nav navbar-right")
                             li 
-                                a(ui-sref="home") Home
+                                a(accesskey="h" ui-sref="home") 
+                                    u H
+                                    |ome
                             if typeof username != 'undefined'
                                 li
-                                    a(ui-sref="mypolls" id="button-mypolls") My Polls
+                                    a(accesskey="m" ui-sref="mypolls" id="button-mypolls")
+                                        u M
+                                        |y Polls
                                 li
-                                    a(ui-sref="new" id="button-new") New Poll
+                                    a(accesskey="n" ui-sref="new" id="button-new")
+                                        u N
+                                        |ew Poll
                             if typeof username != 'undefined'
                                 li(id="sign-out")
                                     a(accesskey="s" ui-sref="logout" title="Sign out")
