@@ -1,13 +1,16 @@
 /* Client-facing JS */
 
 //$( document ).ready(function() {
-  
+
+var dbgGlobals = {}; //A global variable we can assign things to for debugging purposes
+var color = d3.scale.category20();
+
 var pollInit = function() {
     
     console.log("Inside poll init");
 
     // https://github.com/d3/d3/wiki/Ordinal-Scales#category20
-    var color;
+    //var color;  TODO: This may need to be removed because of line 6
     
     new Clipboard('.cb-copy');
     
@@ -120,26 +123,25 @@ var pollInit = function() {
             }
         }
         
-        color = d3.scale.category20();
         
         //We use these values, set by CSS, to center the chart in its container
         var containerWidth = document.getElementById("chart-container").clientWidth;
         var containerHeight = document.getElementById("chart-container").clientHeight;
-        console.log("Container dimensions: " + containerWidth + ", " + containerHeight);
+        //console.log("Container dimensions: " + containerWidth + ", " + containerHeight);
         
         //We want the radius to be the shorter of the two dimensions, so that the pie chart does not get cut off.
         var radius = Math.min(containerHeight, containerWidth) / 2.25;
-        console.log("Radius is " + radius);
+        //console.log("Radius is " + radius);
         
-        console.log("About to dir svg");
-        console.dir(svg);
+        //console.log("About to dir svg");
+        //console.dir(svg);
         svg.attr("width", containerWidth).attr("height", containerHeight)
         
         var mainGroup = svg.append("g")
             .attr("transform", "translate(" + containerWidth / 2 + "," + containerHeight / 2 + ")");
         
         //Create our main group (in the center)
-        console.log("append a 'g' with: " + "transform", "translate(" + containerWidth / 2 + "," + containerHeight / 2 + ")");
+        //console.log("append a 'g' with: " + "transform", "translate(" + containerWidth / 2 + "," + containerHeight / 2 + ")");
         
         
         var arc         = d3.svg.arc().outerRadius(radius);
@@ -223,6 +225,7 @@ var pollInit = function() {
             }
             else {
                 descSpan.textContent += "no votes";
+                descSpan.class = "no"
             }
             div.appendChild(descSpan);
             document.getElementById("results-legend").appendChild(div);
@@ -239,13 +242,35 @@ var pollInit = function() {
         var queryURL = window.location.origin + "/getChartData/" + chartID;
         $.ajax(queryURL, {
             success: function(data, status) {
-                console.log("AJAX Success:  Echoing data and status...");
+                console.log("AJAX Success:  Checking data...");
                 console.dir(data);
-                console.dir(status);
-                drawChart(data);
+                var hasVotes = false;
+                for (var i=0; i < data.length; i++) {
+                    if (data[i].nVotes != 0) {hasVotes = true};
+                }
+                if (hasVotes) {
+                    drawChart(data);
+                }
+                else {
+                    displayNoVotesMessage();
+                }
                 drawLegend(data);
             }
         });
+    }
+    
+    var displayNoVotesMessage = function() {
+        console.log("There are no votes, yet, for this poll");
+        $("#chart-container").empty(); //Empty anything that may already be in the chart container (e.g., a chart from a previous view...)
+        
+        var ccMsg = document.createElement("div");
+        ccMsg.id = "chart-container-message";
+        ccMsg.textContent = "No results yet...";
+        dbgGlobals.ccMsg = ccMsg;
+        $("#chart-container").append(ccMsg);
+    
+        //ccMsg.text("There are no votes, yet");
+        //$("#chart-container").append(ccMsg);
     }
     
     window.addEventListener("hashchange", function() {

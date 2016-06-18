@@ -36,6 +36,17 @@
 	margin: 0px auto 15px auto;
 	width: 550px;
 }
+#chart-container-message {
+    font-size: 18px;
+    font-style: italic;
+    letter-spacing: 0.5em;
+    opacity: .7;
+    position: relative;
+    top: 50%;
+    text-align: center;
+    text-shadow: 0px 0px 10px #201010;
+    text-transform: lowercase;
+}
 #confirm-delete-pane {
     display: none;
 }
@@ -247,6 +258,16 @@
 	font-weight: normal;
 	margin-bottom: 0px;
 	margin-top: 10px;
+}
+.icon-vote {
+    color: red;
+    margin-right: 10px;
+    text-shadow: 0px 0px 4px rgba(205, 205, 205, 1);
+}
+.icon-results {
+    color: green;
+    margin-right: 10px;
+    text-shadow: 0px 0px 4px rgba(205, 205, 205, 1);
 }
 .navbar
 {

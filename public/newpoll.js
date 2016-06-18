@@ -1,6 +1,5 @@
 $(document).ready(function() {
     $("#poll-question-input").focus();
-    //$("input[id|='poll-option']").bind('input', function() {
     $("#new-poll-form").delegate("input", "keyup", function() {
         
         //console.log($(this)[0].parentNode);
@@ -68,4 +67,16 @@ $(document).ready(function() {
         }
         
     });
+    $("#poll-create").click(function() {
+        $("#poll-create")[0].value = "Submitting poll...";
+        //Get the POST url from the FORM
+        var postUrl = $("#new-poll-form")[0].action;
+        var formData = $("#new-poll-form").serialize();
+        $.post(postUrl, formData, function(dataObj, statusText) {
+            console.log("Post success called!");
+            console.dir(dataObj);
+            console.dir(statusText);
+        });
+    });
+    
 });

@@ -176,7 +176,7 @@ router.get('/poll/*', function(req, res) {
             }
             else {
                 console.log("Poll found");
-                console.dir(doc._doc.pollOwner[0]._doc);
+                console.dir(doc._doc);
                 var html = pug.renderFile('./views/poll.pug', {
                     poll: doc._doc,
                     "userName": (typeof req.user !== 'undefined' && typeof req.user.username !== 'undefined')? req.user.username : undefined,

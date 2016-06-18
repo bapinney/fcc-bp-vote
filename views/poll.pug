@@ -3,7 +3,9 @@ hr(class="title-hr")
 h2(class="poll-author vert-rule-r") Created by #{poll.pollOwner[0].userName}
 div(class="row")
     div(class="col-md-4 poll-options-pane")
-        h2(class="subcontainer-head") Vote
+        h2(class="subcontainer-head")
+            i(class="fa fa-check-square-o icon-vote")
+            | Vote
         div(id="vote-pane")
             form(action="/submit-vote" id="vote-form" method="post")
                 p Select an #[u o]ption:
@@ -25,10 +27,13 @@ div(class="row")
                     i(aria-hidden="true" class="fa fa-share-alt-square" style="display: inline !important;")
                     | Share
                 div(id="share-links-pane")
-                    input(type="text" id="share-link")
-                    button(aria-label="Copy link" class="cb-copy" data-clipboard-target="#share-link" id="cb-copy" type="button")
-                        i(aria-hidden="true" class="fa fa-files-o")
-                        |  Copy
+                    div
+                        input(type="text" id="share-link")
+                        button(aria-label="Copy link" class="cb-copy" data-clipboard-target="#share-link" id="cb-copy" type="button")
+                            i(aria-hidden="true" class="fa fa-files-o")
+                            |  Copy
+                    div(class="fb-share-button")
+                        a(href="http://google.com") Shares
             if (poll.pollOwner[0].userName == userName && poll.pollOwner[0].userId == userId && poll.pollOwner[0].userProvider == userProvider)
                 div(id="remove-pane")
                     a(href="#" id="delete-btn")
@@ -41,6 +46,8 @@ div(class="row")
                             |  Delete
     //- The client JS will use this ID to append an SVG with the poll results
     div(class="col-md-8 poll-results-pane" id="poll-results-pane")
-        h2(class="subcontainer-head") Results
+        h2(class="subcontainer-head") 
+            span(class="glyphicon glyphicon-blackboard icon-results")
+            | Results
         div(id="chart-container")
         div(id="results-legend")
