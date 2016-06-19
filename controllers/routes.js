@@ -25,10 +25,26 @@ var loggedIn = function(req, res, next) {
     }
 };
 
+
+/* ########## DEPRECATED ########## */
 router.get('/auth/twitter', function (req, res, next) {
-    console.log("auth twitter called");
-    console.log(req.headers.referer);
-    req.session.cburl = req.headers.referer;
+    //console.log("auth twitter called via GET.  Printing req.");
+    //console.log(req.query.cbHash);
+    req.session.cbHash = req.query.cbHash;
+    passport.authenticate('twitter', function (err, user, info) {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return res.redirect('/login');
+        }
+    })(req, res, next);
+});
+/* ########## ---------- ########## */
+
+
+router.post('/auth/twitter', function (req, res, next) {
+    req.session.cburl = req.query.cbHash;
     passport.authenticate('twitter', function (err, user, info) {
         if (err) {
             return next(err);
@@ -46,10 +62,10 @@ router.get('/auth/twitter/callback', passport.authenticate('twitter', {
 
 router.get('/authreturn', function(req, res) {
     console.log("Auth return called...");
-    if (typeof req.session.cburl !== "undefined" && req.session.cburl.length > 0) {
-        //Note to self:  Now that we are using Angular, the callback URL is going to act differently
-        console.log("Valid callback URL: " + req.session.cburl);
-        res.redirect("/");
+    console.dir(req);
+    if (typeof req.session.cbHash !== "undefined" && req.session.cbHash.length > 0) {
+        res.redirect("/" + req.session.cbHash); //This preceding slash is required so the redirect will not be relative to '/authreturn'
+        
         res.end(); //End this request since the browser will make a seperate request for the page we are redirecting to
         console.log("End called");
         //res.redirect(req.session.cburl);

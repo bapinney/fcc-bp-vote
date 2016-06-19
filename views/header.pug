@@ -37,14 +37,14 @@ body(ng-app="fcc-bp-vote")
                                         u N
                                         |ew Poll
                             if typeof username != 'undefined'
-                                li(id="sign-out")
-                                    a(accesskey="s" ui-sref="logout" title="Sign out")
+                                li(id="li-sign-out")
+                                    a(accesskey="s" ui-sref="logout" id="sign-out" title="Sign out")
                                         i(class="fa fa-sign-out" display="inline !important" aria-hidden="true")
                                         |&nbsp;#{username}
                             else
-                                li(id="sign-in")
+                                li(id="li-sign-in")
                                     //- Do not change to ui-sref as we actually need to leave the site for auth
-                                    a(accesskey="s" href="/auth/twitter" title="Sign in")
+                                    a(accesskey="s" href="/auth/twitter" id="sign-in" title="Sign in")
                                         i(aria-hidden="true" class="fa fa-twitter-square" style="display: inline !important;")
                                         |&nbsp;
                                         u S

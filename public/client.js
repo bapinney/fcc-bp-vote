@@ -1,6 +1,21 @@
 /* Client-facing JS */
 
-//$( document ).ready(function() {
+$( document ).ready(function() {
+    $("#sign-in").click(function(event) {
+        event.preventDefault();
+        console.dir(document.location);
+        var locationHash = document.location.hash;
+        var form = document.createElement("FORM");
+        form.action = "/auth/twitter";
+        var inputCBHash = locationHash;
+        var formInput = document.createElement("input");
+        formInput.type  = "text";
+        formInput.name  = "cbHash";
+        formInput.value = inputCBHash;
+        form.appendChild(formInput);
+        form.submit();
+    });
+});
 
 var dbgGlobals = {}; //A global variable we can assign things to for debugging purposes
 var color = d3.scale.category20();
@@ -18,14 +33,17 @@ var pollInit = function() {
         $("#button-" + window.location.pathname.substr(1)).addClass("active");
     }
     
-    $("#delete-btn").click(function() {
+    $("#delete-btn").click(function(event) {
+        event.preventDefault(); //Prevents this link from changing the hash
         $("#confirm-delete-pane").slideToggle();
         $("#dp-button").focus();
     });
     
     $("#dp-button").click(function() {
+        console.log("Delete Poll clicked");
         //Get the poll id
-        var pathArr = document.location.pathname.split("/");
+        var pathArr = document.location.hash.split("/");
+        console.dir(pathArr);
         if (pathArr[2] !== "poll") {
             return false;
         }

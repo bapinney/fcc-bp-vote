@@ -166,7 +166,7 @@
 	transition-property: background-color;
 	transition-timing-function: linear;
 }
-#sign-in a
+#sign-in
 {
 	color: white;
 }
@@ -195,7 +195,7 @@
 	transition-property: background-color;
 	transition-timing-function: ease-in-out;
 }
-#sign-out a
+#sign-out
 {
 	color: white;
 }
