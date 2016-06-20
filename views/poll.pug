@@ -1,6 +1,7 @@
 h1(id="header-title") #{poll.question}
 hr(class="title-hr")
 h2(class="poll-author vert-rule-r") Created by #{poll.pollOwner[0].userName}
+div(id="fb-root")
 div(class="row")
     div(class="col-md-4 poll-options-pane")
         h2(class="subcontainer-head")
@@ -32,8 +33,12 @@ div(class="row")
                         button(aria-label="Copy link" class="cb-copy" data-clipboard-target="#share-link" id="cb-copy" type="button")
                             i(aria-hidden="true" class="fa fa-files-o")
                             |  Copy
-                    div(class="fb-share-button")
-                        a(href="http://google.com") Shares
+                    div(class="fb-share-button"
+                        data-href= pollURL
+                        data-layout="button"
+                        data-mobile-iframe="true")
+                        a(class="fb-xfbml-parse-ignore" 
+                        target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=" + pollURL) Share
             if (poll.pollOwner[0].userName == userName && poll.pollOwner[0].userId == userId && poll.pollOwner[0].userProvider == userProvider)
                 div(id="remove-pane")
                     a(href="#" id="delete-btn")

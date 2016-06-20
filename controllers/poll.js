@@ -38,11 +38,10 @@ exports.create = function(req, res) {
     var pollSaveResult = poll.save(function(err, record) {
         console.log("About to log record._doc._id");
         console.log(record._doc._id);
+        res.json({pollID: record._doc._id});
     });
     
-    var html = pug.renderFile("./views/poll-submit.pug");
-    res.write(html);
-    res.end();
+    return true;
 }
 
 exports.castVote = function(req, res) {

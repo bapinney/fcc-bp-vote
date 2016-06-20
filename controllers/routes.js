@@ -79,12 +79,13 @@ router.get('/delete*', loggedIn, function (req, res) {
     if (typeof req.query.type == "undefined" || typeof req.query.id == "undefined") {
         return false;
     }
-    console.log("Delete called");
+    //console.log("Delete called");
     var currentUser = req.user;
-    console.log("User is...");
-    console.dir(currentUser);
+    //console.log("User is...");
+    //console.dir(currentUser);
     var pollID = req.query.id;
-    console.log("Poll is " + req.query.id);
+    //console.log("Poll is " + req.query.id);
+    
     //Find the poll
     var Poll = require('../models/poll.js');
     Poll.findOne({
@@ -96,8 +97,8 @@ router.get('/delete*', loggedIn, function (req, res) {
         }
         if (doc) {
             var pollOwner = doc._doc.pollOwner[0]._doc;
-            console.log("Poll owner is...");
-            console.dir(pollOwner);
+            //console.log("Poll owner is...");
+            //console.dir(pollOwner);
             if (currentUser.provider !== pollOwner.userProvider ||
                 currentUser.id       !== pollOwner.userId ||
                 currentUser.username !== pollOwner.userName) {
@@ -106,12 +107,12 @@ router.get('/delete*', loggedIn, function (req, res) {
             }
             Poll.remove({_id: pollID}, function(err, result) {
                 if (err) {
-                    console.log("Error when removing poll: " + err);
+                    //console.log("Error when removing poll: " + err);
                     res.json({result: false, message: err});
                     return false;
                 }
                 if (result) {
-                    console.log("Remove poll result: " + result);
+                    //console.log("Remove poll result: " + result);
                     res.json({  result: true,
                         message: "Poll deleted"});
                     return true;
@@ -180,7 +181,10 @@ router.get('/poll/*', function(req, res) {
     }
     else {
         console.log("About to dir req...");
-        console.dir(req);
+        //console.dir(req);
+        //console.dir(req.hostname);
+        //console.dir(req.url);
+        var pollURL = "http://" + req.hostname + "/#" + req.url;
         var Poll = require('../models/poll.js');
         Poll.findOne({_id: req.params[0]}, function(err, doc) {
             if (err) {
@@ -195,6 +199,7 @@ router.get('/poll/*', function(req, res) {
                 console.dir(doc._doc);
                 var html = pug.renderFile('./views/poll.pug', {
                     poll: doc._doc,
+                    pollURL: pollURL,
                     "userName": (typeof req.user !== 'undefined' && typeof req.user.username !== 'undefined')? req.user.username : undefined,
                     "userId": (typeof req.user !== 'undefined' && typeof req.user.id !== 'undefined')? req.user.id : undefined,
                     "userProvider": (typeof req.user !== 'undefined' && typeof req.user.provider !== 'undefined')? req.user.provider : undefined

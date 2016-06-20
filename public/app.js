@@ -1,5 +1,5 @@
 //Remember this is the CLIENT-SIDE JS
-var app = angular.module("fcc-bp-vote", ['ui.router']);
+var app = angular.module("fcc-bp-vote", ['ui.router', 'ngAnimate']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 

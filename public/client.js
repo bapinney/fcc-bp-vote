@@ -3,7 +3,7 @@
 $( document ).ready(function() {
     $("#sign-in").click(function(event) {
         event.preventDefault();
-        console.dir(document.location);
+        //console.dir(document.location);
         var locationHash = document.location.hash;
         var form = document.createElement("FORM");
         form.action = "/auth/twitter";
@@ -18,14 +18,40 @@ $( document ).ready(function() {
 });
 
 var dbgGlobals = {}; //A global variable we can assign things to for debugging purposes
+
+// https://github.com/d3/d3/wiki/Ordinal-Scales#category20
 var color = d3.scale.category20();
 
 var pollInit = function() {
     
     console.log("Inside poll init");
+    
+    console.log("Adding meta tags...");
+    
+    var meta = document.createElement("meta");
+    meta.setAttribute("property", "og:url");
+    meta.content = document.location.href;
+    document.head.appendChild(meta);
 
-    // https://github.com/d3/d3/wiki/Ordinal-Scales#category20
-    //var color;  TODO: This may need to be removed because of line 6
+    var meta = document.createElement("meta");
+    meta.setAttribute("property", "og:type");
+    meta.content = "website";
+    document.head.appendChild(meta);
+
+    var meta = document.createElement("meta");
+    meta.setAttribute("property", "og:title");
+    meta.content = "freeCodeCamp - Vote";
+    document.head.appendChild(meta);
+    
+    var meta = document.createElement("meta");
+    meta.setAttribute("property", "og:description");
+    meta.content = "freeCodeCamp Voting App";
+    document.head.appendChild(meta);
+    
+    var meta = document.createElement("meta");
+    meta.setAttribute("property", "og:image");
+    meta.content = encodeURI(window.location.origin + '/favicon.ico')
+    document.head.appendChild(meta);
     
     new Clipboard('.cb-copy');
     
@@ -44,14 +70,14 @@ var pollInit = function() {
         //Get the poll id
         var pathArr = document.location.hash.split("/");
         console.dir(pathArr);
-        if (pathArr[2] !== "poll") {
+        if (pathArr[1] !== "poll") {
             return false;
         }
         $.ajax({
             url: "/delete",
             data: {
                 type: "poll",
-                id: pathArr[3]
+                id: pathArr[2]
             },
             type: "GET",
             dataType: "json",
@@ -65,7 +91,7 @@ var pollInit = function() {
             }
             if (json.hasOwnProperty("result") && json.result === true) {
                 alert("Poll deleted");
-                document.location.href = "/";
+                document.location.href = "#"; //Redirect back to homepage as it makes no sense to stay on a poll that is now deleted.
                 return true;
             }
         });

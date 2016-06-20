@@ -2,9 +2,6 @@ $(document).ready(function() {
     $("#poll-question-input").focus();
     $("#new-poll-form").delegate("input", "keyup", function() {
         
-        //console.log($(this)[0].parentNode);
-        //console.log($("#new-poll-form")[0].children[$("#new-poll-form")[0].children.length - 2]);
-        
         //If the text input's parent div is the 2nd-to-last div in the FORM, and that input has text...
         if (
             $(this)[0].value.length > 0 &&
@@ -48,7 +45,7 @@ $(document).ready(function() {
         }
         
         if ($("#poll-create")[0].disabled && 
-            $("#poll-question-input")[0].value.length > 4 &&
+            $("#poll-question-input")[0].value.length > 2 &&
             $("#poll-option-1")[0].value.length > 0 &&
             $("#poll-option-2")[0].value.length > 0 ) 
         {
@@ -58,7 +55,7 @@ $(document).ready(function() {
         if (!$("#poll-create")[0].disabled && 
             //If the button is enabled, but we don't have a full question AND, at least, 2 responses...
             !(
-                $("#poll-question-input")[0].value.length > 4 &&
+                $("#poll-question-input")[0].value.length > 2 &&
                 $("#poll-option-1")[0].value.length > 0 &&
                 $("#poll-option-2")[0].value.length > 0 
             )) {
@@ -67,8 +64,9 @@ $(document).ready(function() {
         }
         
     });
-    $("#poll-create").click(function() {
-        $("#poll-create")[0].value = "Submitting poll...";
+    $("#poll-create").click(function(event) {
+        event.preventDefault(); //Keeps the UA from going to the FORM action
+        $("#poll-create")[0].innerText = "Submitting poll...";
         //Get the POST url from the FORM
         var postUrl = $("#new-poll-form")[0].action;
         var formData = $("#new-poll-form").serialize();
