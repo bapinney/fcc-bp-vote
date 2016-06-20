@@ -66,6 +66,7 @@ $(document).ready(function() {
     });
     $("#poll-create").click(function(event) {
         event.preventDefault(); //Keeps the UA from going to the FORM action
+        $("#poll-create")[0].className = "poll-submit";
         $("#poll-create")[0].innerText = "Submitting poll...";
         //Get the POST url from the FORM
         var postUrl = $("#new-poll-form")[0].action;

@@ -90,46 +90,6 @@
 	margin-right: 15px;
 	width: 150px;
 }
-.poll-submit {
-    background-color: #20207F;
-	border: 2px solid rgba(225,225,245,.8);
-	border-radius: 5px;
-	box-shadow: 0px 0px 15px blue;
-	color: white;
-	display: block;
-	font-size: 16px;
-	font-weight: 400;
-	margin: 10px auto 15px auto;
-	transition: all 300ms;
-}
-.poll-create:disabled
-{
-	background-color: #7F7F7F;
-	border: 2px solid rgba(225,225,225,.8);
-	border-radius: 5px;
-	color: rgb(222,222,222);
-	display: block;
-	font-size: 16px;
-	font-weight: 400;
-	margin: 10px auto 15px auto;
-}
-.poll-create:enabled
-{
-	background-color: #207F20;
-	border: 2px solid rgba(225,245,225,.8);
-	border-radius: 5px;
-	box-shadow: 0px 0px 15px green;
-	color: white;
-	display: block;
-	font-size: 16px;
-	font-weight: 400;
-	margin: 10px auto 15px auto;
-	transition: all 300ms;
-}
-.poll-create:enabled:focus, .poll-create:enabled:hover
-{
-	box-shadow: 0px 0px 30px yellow;
-}
 #remove-pane a {
     color: red;
 }
@@ -336,6 +296,46 @@
 	text-align: right;
 	text-shadow: 2px 2px 2px #BBB;
 }
+.poll-submit {
+    background-color: #20207F;
+	border: none;
+	border-radius: 0px;
+	box-shadow: 0px 0px 0px 5px black;
+	color: white;
+	display: block;
+	font-size: 16px;
+	font-weight: 400;
+	margin: 10px auto 15px auto;
+	transition: all 300ms;
+}
+.poll-create:disabled
+{
+	background-color: #7F7F7F;
+	border: 2px solid rgba(225,225,225,.8);
+	border-radius: 5px;
+	color: rgb(222,222,222);
+	display: block;
+	font-size: 16px;
+	font-weight: 400;
+	margin: 10px auto 15px auto;
+}
+.poll-create:enabled
+{
+	background-color: #207F20;
+	border: 2px solid rgba(225,245,225,.8);
+	border-radius: 5px;
+	box-shadow: 0px 0px 15px green;
+	color: white;
+	display: block;
+	font-size: 16px;
+	font-weight: 400;
+	margin: 10px auto 15px auto;
+	transition: all 300ms;
+}
+.poll-create:enabled:focus, .poll-create:enabled:hover
+{
+	box-shadow: 0px 0px 30px yellow;
+}
 .poll-list
 {
 	list-style-type: none;
@@ -447,19 +447,15 @@ input[type="text"]
 	background-color: hsl(49, 100%, 98%);
 	border-radius: 5px;
 }
-main {
-    /* start 'enter' transition */
-    [ui-view].ng-enter {
-        /* transition on enter for .5s */
-        transition: 5.5s;
 
-        /* start with opacity 0 (invisible) */
-        opacity: 0;
-    }
+main.ng-enter {
+    /* transition on enter for .5s */
+    transition: 300ms;
 
-    /* end 'enter' transition */
-    [ui-view].ng-enter-active {
-        /* end with opacity 1 (fade in) */
-        opacity: 1;
-    }
+    /* start with opacity 0 (invisible) */
+    opacity: 0;
+}
+
+main.ng-enter-active {
+    opacity: 1;
 }
