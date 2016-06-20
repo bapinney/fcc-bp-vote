@@ -66,15 +66,21 @@ $(document).ready(function() {
     });
     $("#poll-create").click(function(event) {
         event.preventDefault(); //Keeps the UA from going to the FORM action
-        $("#poll-create")[0].className = "poll-submit";
+        $("#poll-create")[0].className = "poll-submit"; //Was the poll-create class, previously
         $("#poll-create")[0].innerText = "Submitting poll...";
+        $("#poll-create")[0].disabled  = true;
         //Get the POST url from the FORM
         var postUrl = $("#new-poll-form")[0].action;
         var formData = $("#new-poll-form").serialize();
         $.post(postUrl, formData, function(dataObj, statusText) {
             console.log("Post success called!");
-            console.dir(dataObj);
-            console.dir(statusText);
+            if (statusText == "success" && dataObj.hasOwnProperty("pollID")) {
+                $("#poll-create")[0].className = "poll-submitted";
+                $("#poll-create").html('<i class="fa fa-thumbs-up"></i> Submitted!');
+                setTimeout(function() {
+                    document.location.href= "#/poll/" + dataObj.pollID;
+                }, 1500);
+            }
         });
     });
     

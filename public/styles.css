@@ -300,13 +300,25 @@
     background-color: #20207F;
 	border: none;
 	border-radius: 0px;
-	box-shadow: 0px 0px 0px 5px black;
+	box-shadow: 0px 0px 1px 5px black;
 	color: white;
 	display: block;
 	font-size: 16px;
 	font-weight: 400;
 	margin: 10px auto 15px auto;
 	transition: all 300ms;
+}
+.poll-submitted {
+    background-color: #207F20;
+	border: none;
+	border-radius: 0px;
+	box-shadow: 0px 0px 5px 5px #00FF00;
+	color: white;
+	display: block;
+	font-size: 16px;
+	font-weight: 400;
+	margin: 10px auto 15px auto;
+	transition: all 300ms;  
 }
 .poll-create:disabled
 {
