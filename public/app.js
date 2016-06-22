@@ -9,6 +9,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('home', {
             url: '/home',
+            params: {reload: true}, 
             templateUrl: 'home'
         })
         .state('new', {
@@ -17,8 +18,14 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('mypolls', {
             url: '/mypolls',
-            templateUrl: 'mypolls',
+            templateUrl: 'mypolls'
         })
+        .state('logout', {
+            url: '/logout',
+            templateUrl: 'logout'
+        })
+    
+    
         //For a refresher on URL params, see: https://github.com/angular-ui/ui-router/wiki/URL-Routing
     
         .state('poll', {
@@ -38,6 +45,10 @@ app.run(function($rootScope, $urlRouter) {
             if (event.targetScope.$resolve.$$state.self.name == "poll") {
                 console.log("Calling pollInit().  Document readyState is " + document.readyState);
                 pollInit();
+            }
+            if (event.targetScope.$resolve.$$state.self.name == "home") {
+                
+                console.log("home!!!!12one");
             }
         }
     });

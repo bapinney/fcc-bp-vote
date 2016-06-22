@@ -25,6 +25,12 @@ var loggedIn = function(req, res, next) {
     }
 };
 
+router.get('/api/polls\?*', function(req, res, next) {
+    console.dir(req.query);
+    var sampleJSON = {foo: 'bar'};
+    res.json(sampleJSON);
+});
+
 
 /* ########## DEPRECATED ########## */
 router.get('/auth/twitter', function (req, res, next) {
@@ -146,7 +152,9 @@ router.get('/loginfail', function(req, res) { res.send("Error: Login fail"); });
 
 router.get('/logout', function(req, res) {
     req.logout();
-    res.redirect('/');
+    //res.redirect('/');
+    var html = pug.renderFile('./views/logout.pug');
+    res.send(html);
 });
 
 //Note the loggedIn middleware function to ensure the user is logged in before displaying the page

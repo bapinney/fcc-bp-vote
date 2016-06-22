@@ -237,7 +237,7 @@ var pollInit = function() {
             })
             .transition()
             .ease("bounce")
-            .duration(2000)
+            .duration(1500)
             .attrTween("d", tweenPie);
         
         function tweenPie(b) {

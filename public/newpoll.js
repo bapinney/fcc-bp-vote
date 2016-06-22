@@ -73,7 +73,7 @@ $(document).ready(function() {
         var postUrl = $("#new-poll-form")[0].action;
         var formData = $("#new-poll-form").serialize();
         $.post(postUrl, formData, function(dataObj, statusText) {
-            console.log("Post success called!");
+            //console.log("Post success called!");
             if (statusText == "success" && dataObj.hasOwnProperty("pollID")) {
                 $("#poll-create")[0].className = "poll-submitted";
                 $("#poll-create").html('<i class="fa fa-thumbs-up"></i> Submitted!');

@@ -1,0 +1,6 @@
+h1 You have been signed out
+div Redirecting to main page...
+//-We are using window and href so we break out of the Angular ui-view.  The navbar is not part of this view, so if we do not break out of it, the user will still appear to be logged in even though that is no longer the case.
+script.
+    window.location.href = "/";
+

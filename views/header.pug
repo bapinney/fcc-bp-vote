@@ -23,13 +23,14 @@ body(ng-app="fcc-bp-vote")
                     //- /navbar-header
                     div(class="collapse navbar-collapse" target="navbar-collapse")
                         ul(class="nav navbar-nav navbar-right")
-                            li 
-                                a(accesskey="h" ui-sref="home") 
+                            li
+                                //- Note: There is an outstanding bug in Angular where the reload flag may not work properly: https://github.com/angular-ui/ui-router/issues/960
+                                a(accesskey="h" data-ui-sref="home" data-ui-sref-opts="{location: true, inherit:null, relative:null, reload: true, notify:true}") 
                                     u H
                                     |ome
                             if typeof username != 'undefined'
                                 li
-                                    a(accesskey="m" ui-sref="mypolls" id="button-mypolls")
+                                    a(accesskey="m" ui-sref="mypolls" ui-sref-opts="{reload: true}" id="button-mypolls")
                                         u M
                                         |y Polls
                                 li
