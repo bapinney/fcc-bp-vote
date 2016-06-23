@@ -17,13 +17,13 @@ div(class="row")
                     option(value="unchosen") -------------
                     each val, index in poll.options
                         option(value=index) #{val}
-                    if (typeof username !== 'undefined')
+                    if (typeof userName !== 'undefined')
                         option(value="addNew") (add a custom option)
                 div(id="custom-option-pane" style="display:none")
                     label(for="custom-option-input" class="custom-label") add your own option
                     input(id="custom-option-input" name="custom-vote" type="text")
                 button(accesskey="v" form="vote-form" type="submit" id="cast-vote-button" disabled) Cast #[u V]ote
-        if typeof userName != 'undefined'
+        if typeof userName !== 'undefined'
             div(id="sharing-pane")
                 a(href="#" id="share-btn")
                     i(aria-hidden="true" class="fa fa-share-alt-square" style="display: inline !important;")

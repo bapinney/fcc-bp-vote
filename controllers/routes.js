@@ -152,7 +152,6 @@ router.get('/loginfail', function(req, res) { res.send("Error: Login fail"); });
 
 router.get('/logout', function(req, res) {
     req.logout();
-    //res.redirect('/');
     var html = pug.renderFile('./views/logout.pug');
     res.send(html);
 });
@@ -189,7 +188,7 @@ router.get('/poll/*', function(req, res) {
     }
     else {
         console.log("About to dir req...");
-        //console.dir(req);
+        console.dir(req);
         //console.dir(req.hostname);
         //console.dir(req.url);
         var pollURL = "http://" + req.hostname + "/#" + req.url;

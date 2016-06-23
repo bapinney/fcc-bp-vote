@@ -3,7 +3,10 @@ $(document).ready(function () {
         event.preventDefault();
         var postURL  = $("#vote-form")[0].action;
         var formData = $("#vote-form").serialize();
+        console.log("About to post...");
         $.post(postURL, formData, function(dataObj, statusText) {
+            console.log("About to dir state...");
+            console.dir($state);
             console.dir(dataObj);
             console.dir(statusText);
             if (statusText == "success" && dataObj.hasOwnProperty("pollID")) {

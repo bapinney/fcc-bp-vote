@@ -47,8 +47,7 @@ app.run(function($rootScope, $urlRouter) {
                 pollInit();
             }
             if (event.targetScope.$resolve.$$state.self.name == "home") {
-                
-                console.log("home!!!!12one");
+                //TODO: Make call to DataTables to refresh data...
             }
         }
     });

@@ -151,7 +151,7 @@ exports.castVote = function(req, res) {
                         console.error(err);
                     }
                     if(vote._doc.votes.length > 0) {
-                        res.json({error: "Cannot add custom option after voting"});
+                        res.status(403).send({error: "Cannot add custom option after voting"});
                         return false;
                     };
                     
@@ -178,7 +178,8 @@ exports.castVote = function(req, res) {
                                     res.status(500).send({ result: "error" });
                                 }
                                 else {
-                                    res.json({result: "Custom option added and voted."});
+                                    res.json({result: "success", 
+                                              message: "Custom option added and voted."});
                                 }
                             });
                         }
