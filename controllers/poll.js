@@ -275,7 +275,7 @@ exports.haveIVoted = function (req, res) {
             if (typeof req.user !== 'undefined') {
                 console.log("User is signed in... Searching by User ID...");
                 Poll.findOne({
-                    '_id': req.body['poll-id']
+                    '_id': pollID
                 }, {
                     votes: {
                         $elemMatch: {
@@ -302,7 +302,7 @@ exports.haveIVoted = function (req, res) {
             } else {
                 console.log("User is not signed in.  Searching by IP...");
                 Poll.findOne({
-                    '_id': req.body['poll-id']
+                    '_id': pollID
                 }, {
                     "votes.userIP": req.connection.remoteAddress
                 }, function (err, doc) {

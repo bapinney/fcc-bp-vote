@@ -60,90 +60,8 @@ var pollInit = function() {
         $("#button-" + window.location.pathname.substr(1)).addClass("active");
     }
     
-    $("#delete-btn").click(function(event) {
-        event.preventDefault(); //Prevents this link from changing the hash
-        $("#confirm-delete-pane").slideToggle();
-        $("#dp-button").focus();
-    });
-    
-    $("#dp-button").click(function() {
-        console.log("Delete Poll clicked");
-        //Get the poll id
-        var pathArr = document.location.hash.split("/");
-        console.dir(pathArr);
-        if (pathArr[1] !== "poll") {
-            return false;
-        }
-        $.ajax({
-            url: "/delete",
-            data: {
-                type: "poll",
-                id: pathArr[2]
-            },
-            type: "GET",
-            dataType: "json",
-        })
-        .done(function(json) {
-            console.log("ajax finished...");
-            console.dir(json);
-            if (json.hasOwnProperty("result") && json.result === false) {
-                alert("Unable to delete poll.  \nReason: \"" + json.message + "\"");
-                return false;
-            }
-            if (json.hasOwnProperty("result") && json.result === true) {
-                alert("Poll deleted");
-                document.location.href = "#"; //Redirect back to homepage as it makes no sense to stay on a poll that is now deleted.
-                return true;
-            }
-        });
-    })
-    
-    $("#share-btn").click(function(e) {
-        e.preventDefault();
-        $("#share-links-pane").slideToggle();
-        $("#cb-copy").focus();
-        $("#share-link")[0].value = document.location.href;
-    });
-    
-    if($("#vote-dropdown").length > 0 && $("#vote-dropdown")[0].selectedIndex !== 0) {
-        $("#vote-dropdown")[0].selectedIndex = 0;
-    }
-    
-    $("#vote-dropdown").change(function() {
-        if ($("#vote-dropdown")[0].value == "addNew") {
-            $("#custom-option-pane").slideDown();
-            $("#custom-option-input").focus();
-        }
-        if ($("#vote-dropdown")[0].value == "unchosen") {
-            $("#cast-vote-button")[0].disabled = true;
-        }
-        if ($("#vote-dropdown")[0].value == "addNew" && $("#custom-option-input")[0].value.length == 0) {
-            $("#cast-vote-button")[0].disabled = true;
-        }
-        if ($("#vote-dropdown")[0].value != "addNew" && $("#vote-dropdown")[0].value != "unchosen") {
-            $("#cast-vote-button")[0].disabled = false;
-        }
-        if ($("#vote-dropdown")[0].value != "addNew" && $("#custom-option-pane")[0].hidden == false) {
-            $("#custom-option-pane").slideUp();
-        }
-    });
-    
-    var btnEnableChk = function() {
-        if ($("#custom-option-input")[0].value.length > 0) {
-            $("#cast-vote-button")[0].disabled = false;
-        }
-        else {
-            $("#cast-vote-button")[0].disabled = true;
-        }
-    }
-        
-    $("#custom-option-input").keyup(function() {
-       btnEnableChk();
-    });
-    
-    $("#custom-option-input").click(function() {
-       btnEnableChk();
-    });
+
+
     
     /**
      * drawChart will append an SVG to the chart container and graph, using D3, the data passed to it
@@ -277,6 +195,174 @@ var pollInit = function() {
         }
     }
     
+    var addVoteButton = function(form) {
+        var button = document.createElement("button");
+        button.accesskey = "v";
+        button.form = "vote-form";
+        button.type = "submit";
+        button.id = "cast-vote-button";
+        button.innerHTML = "Cast <u>V</u>ote";
+        button.disabled = true; //Disabled by default...
+        form.appendChild(button);
+    }
+    
+    var drawVotePane = function(data) {
+        console.dir(data);
+        var form = document.createElement("form");
+        form.action = "/submit-vote";
+        form.id = "vote-form";
+        form.method = "post";
+        var p = document.createElement("p");
+        p.innerHTML = "Select an <u>o</u>ption";
+        form.appendChild(p);
+        var inputPollID = document.createElement("input");
+        inputPollID.type = "hidden";
+        inputPollID.name = "poll-id";
+        inputPollID.value = window.location.hash.split("/")[2];
+        var select = document.createElement("select");
+        select.accesskey = "o";
+        select.id = "vote-dropdown";
+        select.name = "vote-selection";
+        var option = document.createElement("option");
+        option.value = "unchosen";
+        option.innerText = "-------------";
+        select.appendChild(option);
+        for (var i=0; i < data.length; i++) {
+            var option = document.createElement("option");
+            option.value = i;
+            option.innerText = data[i].optionLabel;
+            select.appendChild(option);
+        }
+        var authCheckURL = window.location.origin + "/amiauthed";
+        $.ajax(authCheckURL, {
+            success: function(data, status) {
+                if (data.result === true) {
+                    var option = document.createElement("option");
+                    option.value = "addNew";
+                    option.innerText = "(add a custom option)";
+                    select.appendChild(option);
+                    var div = document.createElement("div");
+                    div.id = "custom-option-pane";
+                    div.style = "display:none";
+                    var label = document.createElement("label");
+                    label.for = "custom-option-input";
+                    label.class = "custom-label";
+                    label.innerText = "add your own option";
+                    var input = document.createElement("input");
+                    input.id = "custom-option-input";
+                    input.name = "custom-vote";
+                    input.type = "text";
+                    div.appendChild(label);
+                    div.appendChild(input);
+                    form.appendChild(div);
+                    form.appendChild(inputPollID);
+                    addVoteButton(form);
+                    registerPollEvents();
+                }
+                else {
+                    var div = document.createElement("div");
+                    div.id = "custom-option-pane";
+                    div.style = "display:none";
+                    form.appendChild(div);
+                    form.appendChild(inputPollID);
+                    addVoteButton(form);
+                    registerPollEvents();
+                }
+            }
+        })
+        form.appendChild(select);
+        $("#vote-pane").append(form);
+        $("#vote-pane").append(input);
+        
+    };
+    
+    var registerPollEvents = function() {
+        $("#delete-btn").click(function(event) {
+            event.preventDefault(); //Prevents this link from changing the hash
+            $("#confirm-delete-pane").slideToggle();
+            $("#dp-button").focus();
+        });
+
+        $("#dp-button").click(function() {
+            console.log("Delete Poll clicked");
+            //Get the poll id
+            var pathArr = document.location.hash.split("/");
+            console.dir(pathArr);
+            if (pathArr[1] !== "poll") {
+                return false;
+            }
+            $.ajax({
+                url: "/delete",
+                data: {
+                    type: "poll",
+                    id: pathArr[2]
+                },
+                type: "GET",
+                dataType: "json",
+            })
+            .done(function(json) {
+                console.log("ajax finished...");
+                console.dir(json);
+                if (json.hasOwnProperty("result") && json.result === false) {
+                    alert("Unable to delete poll.  \nReason: \"" + json.message + "\"");
+                    return false;
+                }
+                if (json.hasOwnProperty("result") && json.result === true) {
+                    alert("Poll deleted");
+                    document.location.href = "#"; //Redirect back to homepage as it makes no sense to stay on a poll that is now deleted.
+                    return true;
+                }
+            });
+        })
+
+        $("#share-btn").click(function(e) {
+            e.preventDefault();
+            $("#share-links-pane").slideToggle();
+            $("#cb-copy").focus();
+            $("#share-link")[0].value = document.location.href;
+        });
+
+        if($("#vote-dropdown").length > 0 && $("#vote-dropdown")[0].selectedIndex !== 0) {
+            $("#vote-dropdown")[0].selectedIndex = 0;
+        }
+
+        $("#vote-dropdown").change(function() {
+            if ($("#vote-dropdown")[0].value == "addNew") {
+                $("#custom-option-pane").slideDown();
+                $("#custom-option-input").focus();
+            }
+            if ($("#vote-dropdown")[0].value == "unchosen") {
+                $("#cast-vote-button")[0].disabled = true;
+            }
+            if ($("#vote-dropdown")[0].value == "addNew" && $("#custom-option-input")[0].value.length == 0) {
+                $("#cast-vote-button")[0].disabled = true;
+            }
+            if ($("#vote-dropdown")[0].value != "addNew" && $("#vote-dropdown")[0].value != "unchosen") {
+                $("#cast-vote-button")[0].disabled = false;
+            }
+            if ($("#vote-dropdown")[0].value != "addNew" && $("#custom-option-pane")[0].hidden == false) {
+                $("#custom-option-pane").slideUp();
+            }
+        });
+
+        var btnEnableChk = function() {
+            if ($("#custom-option-input")[0].value.length > 0) {
+                $("#cast-vote-button")[0].disabled = false;
+            }
+            else {
+                $("#cast-vote-button")[0].disabled = true;
+            }
+        }
+
+        $("#custom-option-input").keyup(function() {
+           btnEnableChk();
+        });
+
+        $("#custom-option-input").click(function() {
+           btnEnableChk();
+        });
+    }
+    
     var startDrawing = function() {
         var currentPath = window.location.pathname.split("/");
         console.log("We are at a poll page!!");
@@ -286,7 +372,7 @@ var pollInit = function() {
         //console.dir(currentPath);
         var queryURL = window.location.origin + "/getChartData/" + chartID;
         var haveIVotedURL = window.location.origin + "/haveIVoted/" + chartID;
-        
+
         $.ajax(queryURL, {
             success: function(data, status) {
                 console.log("AJAX Success:  Checking data...");
@@ -302,8 +388,35 @@ var pollInit = function() {
                     displayNoVotesMessage();
                 }
                 drawLegend(data);
+                console.log("Checking for previous voting...");
+                $.ajax(haveIVotedURL, {
+                    success: function (vData, status) {
+                        console.log("haveIVoted result...");
+                        if (vData.hasVoted === false) {
+                            console.log("I have not voted, yet.");
+                            drawVotePane(data);
+                        }
+                        else {
+                            drawVoteCheck();
+                        }
+                    }
+                });
             }
         });
+    }
+    
+    var drawVoteCheck = function() {
+        $("#vote-pane").empty();
+        var fai = document.createElement("i");
+        fai.classList = "fa fa-check";
+        fai.setAttribute("aria-hidden", "true");
+        fai.id = "already-voted";
+        document.getElementById("vote-pane").appendChild(fai);
+        var votedText = document.createElement("span");
+        votedText.innerText = "already voted";
+        votedText.id = "voted-text";
+        document.getElementById("vote-pane").appendChild(votedText);
+        
     }
     
     var displayNoVotesMessage = function() {

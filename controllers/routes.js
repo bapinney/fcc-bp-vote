@@ -25,6 +25,15 @@ var loggedIn = function(req, res, next) {
     }
 };
 
+router.get('/amiauthed', function(req, res) {
+    if (req.user) {
+        res.json({result: true});
+    }
+    else {
+        res.json({result: false});
+    }
+});
+
 router.get('/api/polls\?*', function(req, res, next) {
     console.dir(req.query);
     var sampleJSON = {foo: 'bar'};

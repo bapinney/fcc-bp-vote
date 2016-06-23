@@ -74,6 +74,11 @@
 	text-align: center;
 	text-shadow: 2px 2px 2px rgba(0,0,0,.2);
 }
+#already-voted {
+    color: green;
+    font-size: 100px;
+    text-shadow: black 0px 4px 5px, #00FF00 0px 0px 4px;
+}
 #new-poll-form div
 {
 	margin-bottom: 4px;
