@@ -307,7 +307,7 @@ exports.haveIVoted = function (req, res) {
                     "votes.userIP": req.connection.remoteAddress
                 }, function (err, doc) {
                     if (err) {
-                        console.error(err):
+                        console.error(err);
                             res.json({
                                 error: "Unable to locate result"
                             });
