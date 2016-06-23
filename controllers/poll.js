@@ -262,3 +262,71 @@ exports.getChartData = function(req, res) {
         }
     );
 }
+
+exports.haveIVoted = function (req, res) {
+    var pollID = res.locals.pollID;
+    console.log("haveIVoted function called! PollID: " + pollID);
+    console.log("Searching for Poll...");
+    Poll.findOne({
+        '_id': pollID
+    }, function (err, poll) {
+        if (poll) {
+            //Poll found
+            if (typeof req.user !== 'undefined') {
+                console.log("User is signed in... Searching by User ID...");
+                Poll.findOne({
+                    '_id': req.body['poll-id']
+                }, {
+                    votes: {
+                        $elemMatch: {
+                            userId: req.user.id
+                        }
+                    }
+                }, function (err, vote) {
+                    if (err) {
+                        console.error(err);
+                        res.json({
+                            error: "Unable to locate result"
+                        });
+                    }
+                    if (vote._doc.votes.length === 0) {
+                        res.json({
+                            hasVoted: false
+                        });
+                    } else {
+                        res.json({
+                            hasVoted: true
+                        });
+                    }
+                });
+            } else {
+                console.log("User is not signed in.  Searching by IP...");
+                Poll.findOne({
+                    '_id': req.body['poll-id']
+                }, {
+                    "votes.userIP": req.connection.remoteAddress
+                }, function (err, doc) {
+                    if (err) {
+                        console.error(err):
+                            res.json({
+                                error: "Unable to locate result"
+                            });
+                    }
+                    if (doc._doc.votes.length === 0) {
+                        res.json({
+                            hasVoted: false
+                        });
+                    } else {
+                        res.json({
+                            hasVoted: true
+                        });
+                    }
+                });
+            }
+        } else {
+            res.json({
+                error: "Poll not found"
+            });
+        }
+    });
+}

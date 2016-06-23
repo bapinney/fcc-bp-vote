@@ -32,7 +32,7 @@ router.get('/api/polls\?*', function(req, res, next) {
 });
 
 
-/* ########## DEPRECATED ########## */
+/* ########## DEPRECATED (use POST) ########## */
 router.get('/auth/twitter', function (req, res, next) {
     //console.log("auth twitter called via GET.  Printing req.");
     //console.log(req.query.cbHash);
@@ -46,7 +46,7 @@ router.get('/auth/twitter', function (req, res, next) {
         }
     })(req, res, next);
 });
-/* ########## ---------- ########## */
+/* ########## --------------------- ########## */
 
 
 router.post('/auth/twitter', function (req, res, next) {
@@ -73,8 +73,6 @@ router.get('/authreturn', function(req, res) {
         res.redirect("/" + req.session.cbHash); //This preceding slash is required so the redirect will not be relative to '/authreturn'
         
         res.end(); //End this request since the browser will make a seperate request for the page we are redirecting to
-        console.log("End called");
-        //res.redirect(req.session.cburl);
     }
     else {
         res.redirect('/');
@@ -139,6 +137,20 @@ router.get('/getChartData/*', function (req, res) {
         //ChartID is valid.  Store it in res.locals and let the middleware take care of the rest
         res.locals.chartID = chartID;
         poll.getChartData(req, res);
+    }
+    console.dir(req.params);
+});
+
+router.get('/haveIVoted/*', function(req, res) {
+    var pollID = req.params[0];
+    if (pollID.length !== 24) {
+        res.status(500).json({error: "Expected pollID to be 24 characters"})
+        res.end();
+        return;
+    }
+    else {
+        res.locals.pollID = pollID;
+        poll.haveIVoted(req, res);
     }
     console.dir(req.params);
 });

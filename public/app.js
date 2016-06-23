@@ -30,6 +30,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     
         .state('poll', {
             url: '/poll/:id',
+            params: {reload: true}, //In case anyone else voted since last time.
             templateUrl: function($stateParams) { //We use this to get the poll ID from the Object in the ui-sref attribute for that poll, and then navigate to the URL with that ID
                 return '/poll/' + $stateParams.id;
             },

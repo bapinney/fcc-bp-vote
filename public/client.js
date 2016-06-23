@@ -22,9 +22,10 @@ var dbgGlobals = {}; //A global variable we can assign things to for debugging p
 // https://github.com/d3/d3/wiki/Ordinal-Scales#category20
 var color = d3.scale.category20();
 
+//- Called by app.js if we are at a poll page
 var pollInit = function() {
     
-    console.log("Inside poll init");
+    console.log("Inside poll init function...");
     
     console.log("Adding meta tags...");
     
@@ -284,6 +285,8 @@ var pollInit = function() {
         console.log("Querying for chart " + chartID + "...");
         //console.dir(currentPath);
         var queryURL = window.location.origin + "/getChartData/" + chartID;
+        var haveIVotedURL = window.location.origin + "/haveIVoted/" + chartID;
+        
         $.ajax(queryURL, {
             success: function(data, status) {
                 console.log("AJAX Success:  Checking data...");
@@ -312,9 +315,6 @@ var pollInit = function() {
         ccMsg.textContent = "No results yet...";
         dbgGlobals.ccMsg = ccMsg;
         $("#chart-container").append(ccMsg);
-    
-        //ccMsg.text("There are no votes, yet");
-        //$("#chart-container").append(ccMsg);
     }
     
     window.addEventListener("hashchange", function() {

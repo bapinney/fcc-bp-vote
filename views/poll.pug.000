@@ -9,7 +9,20 @@ div(class="row")
             i(class="fa fa-check-square-o icon-vote")
             | Vote
         div(id="vote-pane")
-            
+            form(action="/submit-vote" id="vote-form" method="post")
+                p Select an #[u o]ption:
+                //- This input makes sure we POST the poll id a vote is being submitted for
+                input(type="hidden" name="poll-id")&attributes({'value': poll._id.toString()})
+                select(accesskey="o" id="vote-dropdown" name="vote-selection")
+                    option(value="unchosen") -------------
+                    each val, index in poll.options
+                        option(value=index) #{val}
+                    if (typeof userName !== 'undefined')
+                        option(value="addNew") (add a custom option)
+                div(id="custom-option-pane" style="display:none")
+                    label(for="custom-option-input" class="custom-label") add your own option
+                    input(id="custom-option-input" name="custom-vote" type="text")
+                button(accesskey="v" form="vote-form" type="submit" id="cast-vote-button" disabled) Cast #[u V]ote
         if typeof userName !== 'undefined'
             div(id="sharing-pane")
                 a(href="#" id="share-btn")
